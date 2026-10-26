@@ -78,6 +78,3 @@ article button:has(> i[style*="background-color"]) { pointer-events: none; curso
 header h1 strong[data-tracker-title] { font-size: 0 !important; }
 header h1 strong[data-tracker-title] > * { display: none; }
 header h1 strong[data-tracker-title]::after { content: attr(data-tracker-title); font-size: var(--tracker-fs, 1rem); }
-
-/* Спільний облік: таблиця «Чистий дохід» завжди порожня (внесли стільки ж, скільки витратили). */
-.tracker-shared.tracker-page-income_statement article .row > .column:first-child > ol:nth-child(2) { display: none; }

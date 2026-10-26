@@ -2,6 +2,7 @@ option "title" "Спільне"
 option "operating_currency" "PLN"
 
 2026-07-01 custom "fava-extension" "fava_report"
+2026-07-01 custom "fava-extension" "fava_shared"
 2026-07-01 custom "fava-option" "language" "uk"
 2026-07-01 custom "fava-option" "invert-income-liabilities-equity" "true"
 2026-07-01 custom "fava-option" "show-accounts-with-zero-transactions" "false"

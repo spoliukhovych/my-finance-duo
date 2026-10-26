@@ -13,6 +13,9 @@
     personal: { "/journal/": ["account/Assets", "Усі операції", "Прихід мінус витрати", "Залишок"] },
     shared: { "/journal/": ["account/Expenses", "Усі операції", "Витрати за період", "Разом з початку"] },
   };
+  // У спільному обліку «Доходи і витрати» і «Гроші на рахунках» розраховані на особистий бюджет,
+  // якого там немає. Замість них працює розширення fava_shared, і свій пункт меню воно додає саме.
+  const SHARED_HIDDEN = ["/income_statement/", "/balance_sheet/"];
   const BAR_LABELS = ["Зміни", "Прихід мінус витрати", "Витрати за період"];
 
   // Міняємо текст у наявному текстовому вузлі: якщо замінити сам вузол, Fava перестане його оновлювати.
@@ -72,17 +75,12 @@
     const current = Object.values(statements).find(([target]) => target === page);
     document.documentElement.classList.toggle("tracker-statement", Boolean(current));
     document.documentElement.classList.toggle("tracker-shared", ledger === SHARED);
-    // У спільному обліку «Чистий дохід» завжди 0 (скільки внесли, стільки й витратили),
-    // тому замість його порожнього графіка одразу показуємо витрати по місяцях.
-    if (page === "income_statement") {
-      const tabs = [...document.querySelectorAll("article button.unset")];
-      const net = tabs.find((b) => b.textContent.trim() === "Чистий дохід");
-      const spent = tabs.find((b) => b.textContent.trim().startsWith("Витрати ("));
-      if (net) net.classList.toggle("tracker-hidden", ledger === SHARED);
-      if (ledger === SHARED && net && spent && net.classList.contains("selected")) spent.click();
-    }
-    for (const a of document.querySelectorAll('aside a[href*="/balance_sheet/"]')) {
-      a.closest("li").classList.toggle("tracker-hidden", ledger === SHARED);
+    if (ledger === SHARED) {
+      for (const page of SHARED_HIDDEN) {
+        for (const a of document.querySelectorAll(`aside a[href*="${page}"]`)) {
+          a.closest("li").classList.add("tracker-hidden");
+        }
+      }
     }
 
     // Пункти меню ведуть на виписки. Fava дописує до посилань фільтри (?interval=day, ?time=...),

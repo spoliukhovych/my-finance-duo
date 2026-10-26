@@ -1,0 +1,70 @@
+{% set r = extension.report() %}
+<style>
+.fsh { --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --olya:#4f46e5; --marko:#14b8a6;
+       max-width: 860px; margin: 0 auto; padding: 4px 0 24px; color: var(--ink);
+       font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.4; }
+.fsh * { box-sizing: border-box; }
+.fsh h2 { margin: 0 0 4px; font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
+.fsh-sub { color: var(--muted); font-size: 14px; margin: 0 0 14px; }
+.fsh-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 14px;
+            box-shadow: 0 1px 2px rgba(15,23,42,.04); overflow: hidden; }
+.fsh-card h3 { margin: 0 0 12px; font-size: 16px; font-weight: 700; }
+.fsh-card h3 small { color: var(--muted); font-weight: 500; }
+.fsh-month { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.fsh-month:last-child { border-bottom: 0; padding-bottom: 0; }
+.fsh-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+.fsh-top b { font-size: 16px; }
+.fsh-top span { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.fsh-split { display: flex; height: 12px; border-radius: 999px; overflow: hidden; background: #eef2ff; }
+.fsh-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 8px; font-size: 14px; }
+.fsh-legend span { font-variant-numeric: tabular-nums; }
+.fsh-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+.fsh-debt { margin-top: 8px; font-size: 14px; }
+.fsh-debt b { font-variant-numeric: tabular-nums; }
+.fsh-scroll { overflow-x: auto; margin: 0 -16px; padding: 0 16px; }
+.fsh-table { border-collapse: collapse; width: 100%; min-width: max-content; font-size: 14px; }
+.fsh-table th, .fsh-table td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: right;
+                               white-space: nowrap; font-variant-numeric: tabular-nums; }
+.fsh-table th:first-child, .fsh-table td:first-child { text-align: left; position: sticky; left: 0; background: #fff; }
+.fsh-table thead th { color: var(--muted); font-weight: 500; }
+.fsh-table tfoot td { font-weight: 700; border-bottom: 0; border-top: 1px solid var(--line); }
+</style>
+<div class="fsh">
+{% if not r %}<p>Поки немає спільних витрат.</p>{% else %}
+<h2>Спільні витрати</h2>
+<p class="fsh-sub">Ділимо навпіл: оренда, Kaufland, Auchan, світло PGE та інтернет Orange Światłowód.</p>
+
+<div class="fsh-card">
+  <h3>Хто скільки вніс <small>і хто кому винен</small></h3>
+  {% for m in r.rows %}
+  <div class="fsh-month">
+    <div class="fsh-top"><b>{{ m.title }}</b><span>витрачено {{ m.total }} зл, порівну по {{ m.half }} зл</span></div>
+    <div class="fsh-split">
+      <div style="width: {{ m.olya_pct }}%; background: var(--olya)"></div>
+      <div style="flex: 1; background: var(--marko)"></div>
+    </div>
+    <div class="fsh-legend">
+      <span><i class="fsh-dot" style="background: var(--olya)"></i>Оля внесла {{ m.olya }} зл</span>
+      <span><i class="fsh-dot" style="background: var(--marko)"></i>Марко вніс {{ m.marko }} зл</span>
+    </div>
+    <div class="fsh-debt">{{ m.debtor }} <b>{{ m.debt }} зл</b></div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="fsh-card">
+  <h3>Витрати за категоріями <small>по місяцях</small></h3>
+  <div class="fsh-scroll">
+    <table class="fsh-table">
+      <thead><tr><th>Категорія</th>{% for m in r.months %}<th>{{ m }}</th>{% endfor %}<th>Разом</th></tr></thead>
+      <tbody>
+        {% for c in r.categories %}
+        <tr><td>{{ c.name }}</td>{% for v in c.amounts %}<td>{{ v }}</td>{% endfor %}<td>{{ c.total }}</td></tr>
+        {% endfor %}
+      </tbody>
+      <tfoot><tr><td>Разом</td>{% for m in r.rows %}<td>{{ m.total }}</td>{% endfor %}<td>{{ r.total_all }}</td></tr></tfoot>
+    </table>
+  </div>
+</div>
+{% endif %}
+</div>
