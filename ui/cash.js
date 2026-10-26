@@ -1,4 +1,4 @@
-// Вікно «Додати витрату» для готівки: магазин, опис (необовʼязково), категорія і сума.
+// Вікно «Додати витрату» для готівки: куди заплатили (магазин, сервіс), опис (необовʼязково), категорія і сума.
 // Замінює загальне вікно Fava «+», де треба було самому писати рахунки й другий рядок.
 // Запис іде через той самий API Fava (api/add_entries) і потрапляє в <імʼя>-manual.beancount.
 (() => {
@@ -36,7 +36,7 @@
       <form method="dialog">
         <div class="tc-head"><h3>Додати витрату</h3><button type="button" class="tc-close" aria-label="Закрити">×</button></div>
         <p class="tc-sub">Готівкою: банківські операції підтягуються з виписки самі.</p>
-        <label>Магазин<input name="shop" required autocomplete="off" placeholder="Напр. Biedronka"></label>
+        <label><span>Куди заплатили <small>магазин, кафе, сервіс</small></span><input name="shop" required autocomplete="off" placeholder="Напр. Biedronka, Uber, перукарня"></label>
         <label><span>Опис <small>необовʼязково</small></span><input name="note" autocomplete="off" placeholder="Напр. продукти на вихідні"></label>
         <label>Категорія<select name="category" required><option value="">Оберіть категорію</option></select></label>
         <div class="tc-row">
@@ -66,13 +66,13 @@
     const note = clean(form.note.value);
     const amount = Number(form.amount.value.replace(/\s/g, "").replace(",", "."));
     const show = (text) => { error.textContent = text; error.hidden = false; };
-    if (!shop) return show("Напишіть магазин.");
+    if (!shop) return show("Напишіть, куди заплатили.");
     if (!form.category.value) return show("Оберіть категорію.");
     if (!(amount > 0)) return show("Сума має бути додатним числом, напр. 12,50.");
     const sum = amount.toFixed(2);
     const entry = {
       t: "Transaction", date: form.date.value, flag: "*", payee: "",
-      // Опис у дужках після магазину: «Biedronka (продукти на вихідні)».
+      // Опис у дужках після назви: «Biedronka (продукти на вихідні)».
       narration: note ? `${shop} (${note})` : shop,
       tags: [], links: [], meta: {},
       postings: [
