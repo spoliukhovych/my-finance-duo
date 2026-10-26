@@ -80,6 +80,16 @@
       if (!(t in TEXT) || n.parentElement.closest("a.account")) continue;
       n.data = n.data.replace(t, TEXT[t]);
     }
+    // «Усі операції»: лінія залишку завжди йде по днях і не реагує на «Щоденно / Щомісячно».
+    // Тому показуємо стовпці «Прихід мінус витрати» за період, а лінію й графіки окремих місяців ховаємо.
+    if (page === "account/Assets") {
+      for (const b of document.querySelectorAll("article button.unset")) {
+        const t = b.textContent.trim();
+        if (t === "Залишок" || t === "Account Balance" || /^\d{4}(-|$)/.test(t)) b.classList.add("tracker-hidden");
+        if ((t === "Зміни" || t === "Прихід мінус витрати") && !b.classList.contains("selected")) b.click();
+        if (t === "Зміни") b.textContent = "Прихід мінус витрати";
+      }
+    }
     // Графіки боргів і капіталу нам не потрібні: боргів немає, капітал лише бухгалтерський.
     for (const b of document.querySelectorAll("article button.unset")) {
       if (["Борги", "Початковий залишок"].includes(b.textContent.trim())) b.classList.add("tracker-hidden");
