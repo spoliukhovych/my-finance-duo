@@ -140,7 +140,8 @@ def build_shared(shared):
     lines = []
     for r, account, person in sorted(shared, key=lambda s: (s[0].date, s[2].key)):
         category = account.split(":", 1)[1]
-        lines += [f"{r.date} * {quote(r.description)} #shared",
+        # Отримувач (payee) = хто заплатив: Fava показує його перед описом у «Усі операції».
+        lines += [f"{r.date} * {quote(person.name)} {quote(r.description)} #shared",
                   f"  Expenses:{category}  {-r.amount:.2f} PLN",
                   f"  Income:Заплатив:{person.name}  {r.amount:.2f} PLN", ""]
     out = LEDGERS / "spilne-transactions.beancount"

@@ -140,6 +140,10 @@
         }
       }
     }
+    // Позначки «хто заплатив» у спільному обліку: Оля фіолетова, Марко бірюзовий (як на «Спільні витрати»).
+    for (const el of document.querySelectorAll("ol.journal .payee")) {
+      el.classList.toggle("tracker-marko", el.textContent.trim() === "Марко");
+    }
     // Графіки боргів і капіталу нам не потрібні: боргів немає, капітал лише бухгалтерський.
     for (const b of document.querySelectorAll("article button.unset")) {
       if (["Борги", "Початковий залишок"].includes(b.textContent.trim())) b.classList.add("tracker-hidden");
