@@ -7,6 +7,7 @@ option "operating_currency" "PLN"
 2026-07-01 custom "fava-option" "invert-income-liabilities-equity" "true"
 2026-07-01 custom "fava-option" "show-accounts-with-zero-transactions" "false"
 2026-07-01 custom "fava-option" "show-accounts-with-zero-balance" "false"
+2026-07-01 custom "fava-option" "default-page" "extension/FavaReport/"  ; при вході й перемиканні обліку — «Звіт за місяць»
 
 ; Спільні витрати (оренда, Kaufland, Auchan, світло, інтернет) ділимо навпіл.
 ; Income:Заплатив:<імʼя>: скільки кожен вніс за спільне. Fava показує це додатним числом

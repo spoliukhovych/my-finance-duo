@@ -6,6 +6,7 @@ option "operating_currency" "PLN"
 2026-07-01 custom "fava-option" "invert-income-liabilities-equity" "true"
 2026-07-01 custom "fava-option" "show-accounts-with-zero-transactions" "false"
 2026-07-01 custom "fava-option" "show-accounts-with-zero-balance" "false"
+2026-07-01 custom "fava-option" "default-page" "extension/FavaReport/"  ; при вході й перемиканні обліку — «Звіт за місяць»
 
 2026-07-01 open Assets:Банк                    PLN
 2026-07-01 open Assets:Готівка                 PLN
