@@ -142,7 +142,7 @@ def build_shared(shared):
         category = account.split(":", 1)[1]
         lines += [f"{r.date} * {quote(r.description)} #shared",
                   f"  Expenses:{category}  {-r.amount:.2f} PLN",
-                  f"  Assets:Заплатив:{person.name}  {r.amount:.2f} PLN", ""]
+                  f"  Income:Заплатив:{person.name}  {r.amount:.2f} PLN", ""]
     out = LEDGERS / "spilne-transactions.beancount"
     out.write_text("; Згенеровано importer.py — не редагуйте вручну\n\n" + "\n".join(lines) + "\n",
                    encoding="utf-8", newline="\n")

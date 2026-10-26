@@ -31,7 +31,7 @@ class FavaReport(FavaExtensionBase):
         return [f"{y}-{m:02d}" for y, m in sorted(found, reverse=True)]
 
     def is_shared(self):
-        return any(e.account.startswith("Assets:Заплатив:") for e in self.ledger.all_entries
+        return any(e.account.startswith("Income:Заплатив:") for e in self.ledger.all_entries
                    if hasattr(e, "account"))
 
     def report(self, month):
@@ -54,10 +54,10 @@ class FavaReport(FavaExtensionBase):
                     expenses += n
                     if "fixed" in e.tags:
                         fixed += n
+                elif p.account.startswith("Income:Заплатив:"):  # спільний облік: хто скільки вніс
+                    paid[p.account.rsplit(":", 1)[1]] -= n
                 elif p.account.startswith("Income:"):
                     income -= n
-                elif p.account.startswith("Assets:Заплатив:"):
-                    paid[p.account.rsplit(":", 1)[1]] -= n
         saved = income - expenses
         rate = (saved / income * 100) if income else None
         cats = sorted(categories.items(), key=lambda kv: kv[1], reverse=True)

@@ -78,7 +78,7 @@ def main():
     for e in entries:
         if isinstance(e, Transaction):
             for p in e.postings:
-                if p.account.startswith("Assets:Заплатив:"):
+                if p.account.startswith("Income:Заплатив:"):
                     paid[(e.date.year, e.date.month)][p.account.rsplit(":", 1)[1]] -= p.units.number
     for ym in sorted(paid):
         olya, marko = paid[ym]["Оля"], paid[ym]["Марко"]

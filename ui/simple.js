@@ -4,17 +4,30 @@
   const MENU = {
     "/income_statement/": "Доходи і витрати",
     "/balance_sheet/": "Гроші на рахунках",
-    "/journal/": "Усі операції",
-    "/account/Assets/": "Усі операції",
   };
+  // Сторінки-виписки, на які ведуть пункти меню: [куди веде, назва, підпис стовпців за період].
+  // У спільному обліку власних грошей немає: «Усі операції» там — усі спільні покупки,
+  // хто скільки вніс видно в «Доходи і витрати», а пункт «Гроші на рахунках» ховаємо.
+  const SHARED = "спільне";
+  const STATEMENTS = {
+    personal: { "/journal/": ["account/Assets", "Усі операції", "Прихід мінус витрати", "Залишок"] },
+    shared: { "/journal/": ["account/Expenses", "Усі операції", "Витрати за період", "Разом з початку"] },
+  };
+  const BAR_LABELS = ["Зміни", "Прихід мінус витрати", "Витрати за період"];
+
+  // Міняємо текст у наявному текстовому вузлі: якщо замінити сам вузол, Fava перестане його оновлювати.
+  function setText(el, text) {
+    const node = [...el.childNodes].find((n) => n.nodeType === 3 && n.data.trim());
+    if (node) { if (node.data.trim() !== text) node.data = text; } else el.textContent = text;
+  }
   const TITLE = {
     "Доходний звіт": "Доходи і витрати",
     "Баланс": "Гроші на рахунках",
     "Журнал": "Усі операції",
   };
   const TEXT = {
-    "Stacked Bars": "Разом",
-    "Single Bars": "Окремо",
+    "Stacked Bars": "По категоріях",  // стовпці з кольоровими частинами: кожна категорія окремо
+    "Single Bars": "Підсумок",  // один стовпець за місяць: чистий результат
     "Income": "Доходи",
     "Expenses": "Витрати",
     "Liabilities": "Борги",
@@ -42,8 +55,6 @@
   };
   const HINT = "Перший рядок: категорія (Expenses:Кафе) і сума. Другий рядок: звідки гроші, " +
     "Assets:Готівка, суму можна не писати.";
-  // Початок підпису → зрозуміліший (дужки з періодом лишаються: «(щомісячно)», «(щоденно)»).
-  const PREFIX = [["Зміни (", "Прихід мінус витрати ("], ["Баланс (", "Залишок ("]];
   const allowed = window.TRACKER_LEDGERS || [];
 
   function fix() {
@@ -54,24 +65,54 @@
       document.documentElement.className = document.documentElement.className
         .split(" ").filter((c) => !c.startsWith("tracker-page-")).concat(cls).join(" ");
     }
-    // «Усі операції» ведуть на виписку всіх рахунків (банк і готівка) із сумою та залишком.
-    // Fava дописує до посилань фільтри (?interval=day, ?time=...), тому шукаємо «/journal/» у будь-якому місці.
-    for (const a of document.querySelectorAll('aside a[href*="/journal/"]')) {
-      a.setAttribute("href", a.getAttribute("href").replace("/journal/", "/account/Assets/"));
+    const ledger = decodeURIComponent(location.pathname.split("/")[1] || "");
+    const statements = STATEMENTS[ledger === SHARED ? "shared" : "personal"];
+    const labels = { ...MENU };
+    for (const [target, label] of Object.values(statements)) labels["/" + target + "/"] = label;
+    const current = Object.values(statements).find(([target]) => target === page);
+    document.documentElement.classList.toggle("tracker-statement", Boolean(current));
+    document.documentElement.classList.toggle("tracker-shared", ledger === SHARED);
+    // У спільному обліку «Чистий дохід» завжди 0 (скільки внесли, стільки й витратили),
+    // тому замість його порожнього графіка одразу показуємо витрати по місяцях.
+    if (page === "income_statement") {
+      const tabs = [...document.querySelectorAll("article button.unset")];
+      const net = tabs.find((b) => b.textContent.trim() === "Чистий дохід");
+      const spent = tabs.find((b) => b.textContent.trim().startsWith("Витрати ("));
+      if (net) net.classList.toggle("tracker-hidden", ledger === SHARED);
+      if (ledger === SHARED && net && spent && net.classList.contains("selected")) spent.click();
+    }
+    for (const a of document.querySelectorAll('aside a[href*="/balance_sheet/"]')) {
+      a.closest("li").classList.toggle("tracker-hidden", ledger === SHARED);
+    }
+
+    // Пункти меню ведуть на виписки. Fava дописує до посилань фільтри (?interval=day, ?time=...),
+    // тому шукаємо «/journal/» у будь-якому місці посилання.
+    for (const [from, [target]] of Object.entries(statements)) {
+      for (const a of document.querySelectorAll(`aside a[href*="${from}"]`)) {
+        a.setAttribute("href", a.getAttribute("href").replace(from, "/" + target + "/"));
+      }
     }
     const title = document.querySelector("header h1 strong");
     if (title) {
-      const want = page === "account/Assets" ? "Усі операції" : TITLE[title.textContent.trim()];
-      if (want && title.textContent !== want) title.textContent = want;
+      const want = current ? current[1] : TITLE[title.textContent.trim()];
+      // Заголовок малює Fava, тому текст не міняємо, а показуємо свій поверх (див. simple.css).
+      if (want && title.dataset.trackerTitle !== want) {
+        if (!title.dataset.trackerTitle) title.style.setProperty("--tracker-fs", getComputedStyle(title).fontSize);
+        title.dataset.trackerTitle = want;
+      } else if (!want && title.dataset.trackerTitle) {
+        delete title.dataset.trackerTitle;
+      }
     }
     for (const a of document.querySelectorAll("aside a[href]")) {
       const path = decodeURIComponent(a.getAttribute("href").split("?")[0]);
-      const key = Object.keys(MENU).find((k) => path.endsWith(k));
+      const key = Object.keys(labels).find((k) => path.endsWith(k));
       const node = a.firstChild;
-      if (key && node && node.nodeType === 3 && node.data.trim() !== MENU[key]) node.data = MENU[key];
+      if (key && node && node.nodeType === 3 && node.data.trim() !== labels[key]) node.data = labels[key];
+      // Підсвічуємо пункт поточної виписки (Fava сам підсвітив би «Баланс»).
+      a.classList.toggle("tracker-current", Boolean(current) && path.endsWith("/" + page + "/"));
     }
     const add = document.querySelector("aside a.add-transaction");
-    if (add && add.textContent !== "+ Додати витрату") add.textContent = "+ Додати витрату";
+    if (add) setText(add, "+ Додати витрату");
 
     // Назви в заголовку, кнопках і шапках таблиць; назви рахунків не чіпаємо.
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
@@ -80,14 +121,25 @@
       if (!(t in TEXT) || n.parentElement.closest("a.account")) continue;
       n.data = n.data.replace(t, TEXT[t]);
     }
-    // «Усі операції»: лінія залишку завжди йде по днях і не реагує на «Щоденно / Щомісячно».
-    // Тому показуємо стовпці «Прихід мінус витрати» за період, а лінію й графіки окремих місяців ховаємо.
-    if (page === "account/Assets") {
+    // Виписка: лінія залишку завжди йде по днях і не реагує на «Щоденно / Щомісячно».
+    // Тому показуємо стовпці за період, а лінію й графіки окремих місяців ховаємо.
+    if (current) {
+      const [, , bars, total] = current;
+      const head = document.querySelector("ol.journal li.head p > .num:last-child");
+      if (head) setText(head, total);
       for (const b of document.querySelectorAll("article button.unset")) {
         const t = b.textContent.trim();
         if (t === "Залишок" || t === "Account Balance" || /^\d{4}(-|$)/.test(t)) b.classList.add("tracker-hidden");
-        if ((t === "Зміни" || t === "Прихід мінус витрати") && !b.classList.contains("selected")) b.click();
-        if (t === "Зміни") b.textContent = "Прихід мінус витрати";
+        if (BAR_LABELS.includes(t) && !b.classList.contains("selected")) b.click();
+        if (BAR_LABELS.includes(t)) setText(b, bars);
+      }
+      // Заголовки таблиць: «Зміни (щомісячно)», «Баланс (щомісячно)»; дужки з періодом лишаються.
+      for (const h of document.querySelectorAll("article .headerline h3, article .headerline h3 a")) {
+        const node = h.firstChild;
+        if (!node || node.nodeType !== 3) continue;
+        for (const [from, to] of [...BAR_LABELS.map((l) => [l + " (", bars + " ("]), ["Баланс (", total + " ("]]) {
+          if (node.data.startsWith(from) && from !== to) node.data = to + node.data.slice(from.length);
+        }
       }
     }
     // Графіки боргів і капіталу нам не потрібні: боргів немає, капітал лише бухгалтерський.
@@ -114,14 +166,6 @@
     for (const a of document.querySelectorAll(".beancount-files a[href]")) {
       const slug = decodeURIComponent(a.getAttribute("href").split("/")[1] || "");
       if (!allowed.includes(slug)) a.closest("li").classList.add("tracker-hidden");
-    }
-    // Заголовки таблиць на сторінці «Усі операції»: «Зміни (щомісячно)», «Баланс (щомісячно)».
-    for (const h of document.querySelectorAll("article .headerline h3, article .headerline h3 a")) {
-      const node = h.firstChild;
-      if (!node || node.nodeType !== 3) continue;
-      for (const [from, to] of PREFIX) {
-        if (node.data.startsWith(from)) node.data = to + node.data.slice(from.length);
-      }
     }
     for (const [from, to] of Object.entries(TITLE)) {
       if (document.title.startsWith(from + " ")) document.title = document.title.replace(from, to);

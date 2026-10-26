@@ -37,8 +37,8 @@ article form.flex-row:has(button[data-key="s o"]) { display: none; }
 /* У журналі прибираємо службові рядки звірки з банком, колонку прапорця і порожню колонку кількості. */
 ol.journal li.balance { display: none !important; }
 ol.journal .flag { visibility: hidden; width: 0.5rem; }
-.tracker-page-account-Assets ol.journal .num:nth-of-type(1),
-.tracker-page-account-Assets ol.journal .indicators { display: none; }
+.tracker-statement ol.journal .num:nth-of-type(1),
+.tracker-statement ol.journal .indicators { display: none; }
 
 /* «Гроші на рахунках»: лишаємо лише рахунки, без боргів і бухгалтерського капіталу. */
 .tracker-page-balance_sheet article .row > .column:nth-child(2) { display: none; }
@@ -51,11 +51,11 @@ ol.journal .flag { visibility: hidden; width: 0.5rem; }
 /* Кнопка «PLN» над графіком лише вимикає валюту, і графік стає порожнім. Робимо її простою підписю. */
 article button:has(> i[style*="background-color"]) { pointer-events: none; cursor: default; }
 
-/* «Усі операції» — це сторінка рахунку Assets, яку Fava підсвічує як «Баланс». Підсвічуємо правильний пункт. */
-.tracker-page-account-Assets aside a.selected:not([href*="/account/Assets/"]):not(:hover) {
+/* Виписки («Усі операції» тощо) — це сторінки рахунків, які Fava підсвічує як «Баланс». Підсвічуємо правильний пункт. */
+.tracker-statement aside a.selected:not(.tracker-current):not(:hover) {
   color: inherit; background-color: transparent;
 }
-.tracker-page-account-Assets aside a[href*="/account/Assets/"] {
+.tracker-statement aside a.tracker-current {
   color: var(--sidebar-hover-color); background-color: var(--sidebar-border);
 }
 
@@ -64,12 +64,20 @@ article button:has(> i[style*="background-color"]) { pointer-events: none; curso
 
 /* Телефон: у виписці лишаємо дату, опис і суму, щоб колонки не налазили одна на одну. */
 @media (max-width: 767px) {
-  .tracker-page-account-Assets ol.journal > li > p > .num:last-child { display: none; }
-  .tracker-page-account-Assets ol.journal > li > p > .change { flex: 1; text-align: right; white-space: nowrap; }
+  .tracker-statement ol.journal > li > p > .num:last-child { display: none; }
+  .tracker-statement ol.journal > li > p > .change { flex: 1; text-align: right; white-space: nowrap; }
 }
 
 /* Таблиці по періодах на телефоні гортаються вбік, а не обрізаються. */
 @media (max-width: 767px) {
-  .tracker-page-account-Assets article .droptarget { overflow-x: auto; }
-  .tracker-page-account-Assets article .droptarget > ol.tree-table-new { min-width: max-content; }
+  .tracker-statement article .droptarget { overflow-x: auto; }
+  .tracker-statement article .droptarget > ol.tree-table-new { min-width: max-content; }
 }
+
+/* Свій заголовок сторінки поверх заголовка Fava (app.js ставить data-tracker-title). */
+header h1 strong[data-tracker-title] { font-size: 0 !important; }
+header h1 strong[data-tracker-title] > * { display: none; }
+header h1 strong[data-tracker-title]::after { content: attr(data-tracker-title); font-size: var(--tracker-fs, 1rem); }
+
+/* Спільний облік: таблиця «Чистий дохід» завжди порожня (внесли стільки ж, скільки витратили). */
+.tracker-shared.tracker-page-income_statement article .row > .column:first-child > ol:nth-child(2) { display: none; }
