@@ -86,3 +86,7 @@ header h1 strong[data-tracker-title]::after { content: attr(data-tracker-title);
 }
 .tracker-shared ol.journal .payee.tracker-marko { background: #0d9488; }
 .tracker-shared ol.journal .payee + .separator { display: none; }
+
+/* Фільтри в шапці (період, рахунок, пошук) прибираємо: на телефоні вони займають пів екрана,
+   а місяць обирається кнопками у звіті й перемикачем «Щомісячно» на графіках. */
+header > .flex-row:has(input[role="combobox"]) { display: none !important; }
