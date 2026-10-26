@@ -1,21 +1,21 @@
 /* Спрощений вигляд Fava для Олі й Марка: app.py додає цей файл на кожну сторінку. */
 
 /* Меню: лише «Звіт за місяць», «Доходи і витрати», «Гроші на рахунках», «Усі операції» і «+». */
-aside li:has(> a[href$="/trial_balance/"]),
-aside li:has(> a[href$="/query/"]),
+aside li:has(> a[href*="/trial_balance/"]),
+aside li:has(> a[href*="/query/"]),
 aside li:has(> span > input[role="combobox"]),
-aside li:has(> a[href$="/holdings/"]),
-aside li:has(> a[href$="/commodities/"]),
-aside li:has(> a[href$="/documents/"]),
-aside li:has(> a[href$="/events/"]),
-aside li:has(> a[href$="/statistics/"]),
-aside li:has(> a[href$="/import/"]),
-aside li:has(> a[href$="/options/"]),
-aside li:has(> a[href$="/help/"]),
-aside a[href$="/editor/"] { display: none !important; }
-aside ul.navigation:not(:has(> li:not(:has(> a[href$="/holdings/"], > a[href$="/commodities/"], > a[href$="/documents/"], > a[href$="/events/"], > a[href$="/statistics/"])))) { display: none; }
+aside li:has(> a[href*="/holdings/"]),
+aside li:has(> a[href*="/commodities/"]),
+aside li:has(> a[href*="/documents/"]),
+aside li:has(> a[href*="/events/"]),
+aside li:has(> a[href*="/statistics/"]),
+aside li:has(> a[href*="/import/"]),
+aside li:has(> a[href*="/options/"]),
+aside li:has(> a[href*="/help/"]),
+aside a[href*="/editor/"] { display: none !important; }
+aside ul.navigation:not(:has(> li:not(:has(> a[href*="/holdings/"], > a[href*="/commodities/"], > a[href*="/documents/"], > a[href*="/events/"], > a[href*="/statistics/"])))) { display: none; }
 aside { display: flex; flex-direction: column; }
-aside ul.navigation:has(a[href$="/extension/FavaReport/"]) { order: -1; }
+aside ul.navigation:has(a[href*="/extension/FavaReport/"]) { order: -1; }
 
 /* Кнопка «+» стає помітною кнопкою «Додати витрату». */
 aside a.add-transaction {

@@ -53,8 +53,9 @@
         .split(" ").filter((c) => !c.startsWith("tracker-page-")).concat(cls).join(" ");
     }
     // «Усі операції» ведуть на виписку всіх рахунків (банк і готівка) із сумою та залишком.
-    for (const a of document.querySelectorAll('aside a[href$="/journal/"]')) {
-      a.setAttribute("href", a.getAttribute("href").replace(/journal\/$/, "account/Assets/"));
+    // Fava дописує до посилань фільтри (?interval=day, ?time=...), тому шукаємо «/journal/» у будь-якому місці.
+    for (const a of document.querySelectorAll('aside a[href*="/journal/"]')) {
+      a.setAttribute("href", a.getAttribute("href").replace("/journal/", "/account/Assets/"));
     }
     const title = document.querySelector("header h1 strong");
     if (title) {
@@ -62,7 +63,8 @@
       if (want && title.textContent !== want) title.textContent = want;
     }
     for (const a of document.querySelectorAll("aside a[href]")) {
-      const key = Object.keys(MENU).find((k) => a.getAttribute("href").endsWith(k));
+      const path = decodeURIComponent(a.getAttribute("href").split("?")[0]);
+      const key = Object.keys(MENU).find((k) => path.endsWith(k));
       const node = a.firstChild;
       if (key && node && node.nodeType === 3 && node.data.trim() !== MENU[key]) node.data = MENU[key];
     }
@@ -111,6 +113,9 @@
     if (queued) return;
     queued = true;
     requestAnimationFrame(() => { queued = false; fix(); });
-  }).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+  }).observe(document.documentElement, {
+    childList: true, subtree: true, characterData: true,
+    attributes: true, attributeFilter: ["href", "placeholder"],  // Fava оновлює посилання при зміні фільтрів
+  });
   fix();
 })();
