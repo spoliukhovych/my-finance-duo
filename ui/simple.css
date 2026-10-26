@@ -1,0 +1,57 @@
+/* Спрощений вигляд Fava для Олі й Марка: app.py додає цей файл на кожну сторінку. */
+
+/* Меню: лише «Звіт за місяць», «Доходи і витрати», «Гроші на рахунках», «Усі операції» і «+». */
+aside li:has(> a[href$="/trial_balance/"]),
+aside li:has(> a[href$="/query/"]),
+aside li:has(> span > input[role="combobox"]),
+aside li:has(> a[href$="/holdings/"]),
+aside li:has(> a[href$="/commodities/"]),
+aside li:has(> a[href$="/documents/"]),
+aside li:has(> a[href$="/events/"]),
+aside li:has(> a[href$="/statistics/"]),
+aside li:has(> a[href$="/import/"]),
+aside li:has(> a[href$="/options/"]),
+aside li:has(> a[href$="/help/"]),
+aside a[href$="/editor/"] { display: none !important; }
+aside ul.navigation:not(:has(> li:not(:has(> a[href$="/holdings/"], > a[href$="/commodities/"], > a[href$="/documents/"], > a[href$="/events/"], > a[href$="/statistics/"])))) { display: none; }
+aside { display: flex; flex-direction: column; }
+aside ul.navigation:has(a[href$="/extension/FavaReport/"]) { order: -1; }
+
+/* Кнопка «+» стає помітною кнопкою «Додати витрату». */
+aside a.add-transaction {
+  display: block !important; margin: 10px 0.5rem !important; padding: 9px 12px !important;
+  border-radius: 8px !important; background: #4f46e5 !important; color: #fff !important;
+  font-size: 15px !important; font-weight: 600 !important; line-height: 1.2 !important;
+  text-align: center !important; white-space: nowrap; width: auto !important; height: auto !important;
+}
+aside li:has(> a.add-transaction) { display: block !important; }
+
+/* Вікно «+»: лише звичайна витрата, без балансу, приміток, прапорця і метаданих. */
+dialog form h3 button:not(:first-of-type),
+dialog form input[name="flag"],
+dialog form button[title="Додати метадані"] { display: none !important; }
+dialog .tracker-hint { margin: 4px 0 0; font-size: 13px; color: #64748b; }
+
+/* Ряд технічних кнопок над журналом (Open, Close, Balance, ...). */
+article form.flex-row:has(button[data-key="s o"]) { display: none; }
+/* У журналі прибираємо службові рядки звірки з банком, колонку прапорця і порожню колонку кількості. */
+ol.journal li.balance { display: none !important; }
+ol.journal .flag { visibility: hidden; width: 0.5rem; }
+.tracker-page-account-Assets ol.journal .num:nth-of-type(1),
+.tracker-page-account-Assets ol.journal .indicators { display: none; }
+
+/* «Гроші на рахунках»: лишаємо лише рахунки, без боргів і бухгалтерського капіталу. */
+.tracker-page-balance_sheet article .row > .column:nth-child(2) { display: none; }
+.tracker-page-balance_sheet article .row > .column:first-child { flex: 1 1 100%; max-width: 640px; }
+
+/* Колонка «Other» (інші валюти) у таблицях: у нас лише злоті. */
+.flex-table .num.other { display: none; }
+
+/* Елементи, які позначено з app.js як зайві. */
+.tracker-hidden { display: none !important; }
+
+/* Телефон: у виписці лишаємо дату, опис і суму, щоб колонки не налазили одна на одну. */
+@media (max-width: 767px) {
+  .tracker-page-account-Assets ol.journal > li > p > .num:last-child { display: none; }
+  .tracker-page-account-Assets ol.journal > li > p > .change { flex: 1; text-align: right; white-space: nowrap; }
+}

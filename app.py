@@ -4,6 +4,7 @@
   olya  → облік «Оля» і «Спільне»
   marko → облік «Марко» і «Спільне»
 Без входу трекер не показує жодних даних. Чужий облік повертає 403.
+Редактор файлів вимкнено: змінювати можна лише витрати, додані кнопкою «+».
 
 Секрети беруться лише зі змінних середовища (у коді й у репозиторії їх немає):
   SECRET_KEY       — довгий випадковий рядок для підпису cookie
@@ -15,6 +16,8 @@
 На PythonAnywhere цей файл підключає WSGI-конфігурація (див. README).
 """
 import hmac
+import io
+import json
 import os
 import sys
 import time
@@ -39,6 +42,10 @@ USERS = {
 }
 REPORT = "extension/FavaReport/"
 MAX_FAILS, LOCK_SECONDS = 5, 60
+UI = ROOT / "ui"  # спрощений вигляд Fava: simple.css і simple.js
+# Сторінки й дії Fava, які змінюють файли обліку. Редактор закрито, щоб випадково не зламати облік.
+BLOCKED_PAGES = {"editor", "import"}
+ALLOWED_WRITES = {"api/add_entries", "api/source_slice"}
 
 
 def _require_env(name):
@@ -107,6 +114,49 @@ button {{ width: 100%; margin-top: 18px; padding: 12px; font-size: 16px; border:
 </form></body></html>"""
         return Response(html, status=401 if error else 200, mimetype="text/html")
 
+    def static_ui(self, path):
+        name = path.rsplit("/", 1)[-1]
+        types = {"simple.css": "text/css", "simple.js": "text/javascript"}
+        if name not in types:
+            return Response("Не знайдено.", status=404)
+        return Response((UI / name).read_bytes(), mimetype=types[name])
+
+    def can_change(self, request, slug, rest):
+        """Чи можна цей запит пропустити: читати можна все, змінювати лише готівку з «+»."""
+        if rest.split("/", 1)[0] in BLOCKED_PAGES:
+            return False
+        if request.method in ("GET", "HEAD"):
+            return rest != "api/source"
+        if rest not in ALLOWED_WRITES:
+            return False
+        if rest == "api/source_slice":
+            # Виправити чи видалити можна лише запис, доданий з телефона (*-manual.beancount).
+            if request.method == "PUT":
+                body = request.get_data()
+                request.environ["wsgi.input"] = io.BytesIO(body)  # тіло ще прочитає Fava
+                data = json.loads(body or b"{}")
+            else:
+                data = request.args
+            try:
+                entry = self.fava.config["LEDGERS"][slug].get_entry(data.get("entry_hash", ""))
+            except Exception:
+                return False
+            return entry.meta.get("filename", "").endswith("-manual.beancount")
+        return True
+
+    def with_ui(self, environ, user):
+        """Відповідь Fava з доданим спрощеним виглядом (лише для повних HTML-сторінок)."""
+        response = Response.from_app(self.fava, environ)
+        if response.mimetype != "text/html" or "partial=" in environ.get("QUERY_STRING", ""):
+            return response
+        html = response.get_data(as_text=True)
+        ledgers = json.dumps(USERS[user]["ledgers"], ensure_ascii=False)
+        head = (f'<link rel="stylesheet" href="/ui/simple.css">'
+                f"<script>window.TRACKER_LEDGERS = {ledgers};</script>"
+                f'<script defer src="/ui/simple.js"></script></head>')
+        response.set_data(html.replace("</head>", head, 1))
+        return response
+
     def home(self, user):
         return f"/{quote(USERS[user]['ledgers'][0])}/{REPORT}"
 
@@ -154,8 +204,16 @@ button {{ width: 100%; margin-top: 18px; padding: 12px; font-size: 16px; border:
                     "Location": "/login?next=" + quote(request.full_path.rstrip("?"))})
             elif first in ("", "jump"):
                 response = Response(status=303, headers={"Location": self.home(user)})
-            elif first == "static" or first in USERS[user]["ledgers"]:
+            elif first == "ui":
+                response = self.static_ui(path)
+            elif first == "static":
                 response = self.fava
+            elif first in USERS[user]["ledgers"]:
+                rest = path.strip("/").split("/", 1)[1] if "/" in path.strip("/") else ""
+                if self.can_change(request, first, rest):
+                    response = self.with_ui(environ, user)
+                else:
+                    response = Response("Цю дію в трекері вимкнено.", status=403)
             else:
                 response = Response("Немає доступу до цього обліку.", status=403)
         if response is not self.fava:

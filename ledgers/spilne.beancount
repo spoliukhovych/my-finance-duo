@@ -3,6 +3,9 @@ option "operating_currency" "PLN"
 
 2026-07-01 custom "fava-extension" "fava_report"
 2026-07-01 custom "fava-option" "language" "uk"
+2026-07-01 custom "fava-option" "invert-income-liabilities-equity" "true"
+2026-07-01 custom "fava-option" "show-accounts-with-zero-transactions" "false"
+2026-07-01 custom "fava-option" "show-accounts-with-zero-balance" "false"
 
 ; Спільні витрати (оренда, Kaufland, Auchan, світло, інтернет) ділимо навпіл.
 ; Assets:Заплатив:<імʼя> показує, скільки кожен заплатив за спільне (зі знаком мінус).
