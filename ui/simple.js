@@ -59,6 +59,67 @@
   const HINT = "Перший рядок: категорія (Expenses:Кафе) і сума. Другий рядок: звідки гроші, " +
     "Assets:Готівка, суму можна не писати.";
   const allowed = window.TRACKER_LEDGERS || [];
+  const own = allowed.find((l) => l !== SHARED) || allowed[0];
+
+  // Нижнє меню на телефоні, як у банківських застосунках: [значок, назва, посилання, сторінка].
+  // У спільному обліку «+» веде в особистий облік: готівку записуємо у свій *-manual.beancount.
+  const base = (ledger) => "/" + encodeURIComponent(ledger) + "/";
+  function tabs(ledger) {
+    const here = base(ledger);
+    const mine = base(own);
+    if (ledger === SHARED) {
+      return [
+        ["📊", "Звіт", here + "extension/FavaReport/", "extension/FavaReport"],
+        ["🧾", "Операції", here + "account/Expenses/", "account/Expenses"],
+        ["+", "", mine + "extension/FavaReport/#add-transaction", ""],
+        ["🤝", "Підсумки", here + "extension/SharedExpenses/", "extension/SharedExpenses"],
+        ["👤", "Мій облік", mine + "extension/FavaReport/", ""],
+      ];
+    }
+    return [
+      ["📊", "Звіт", here + "extension/FavaReport/", "extension/FavaReport"],
+      ["🧾", "Операції", here + "account/Assets/", "account/Assets"],
+      ["+", "", "#add-transaction", ""],
+      ["👛", "Рахунки", here + "balance_sheet/", "balance_sheet"],
+      allowed.includes(SHARED) ? ["🤝", "Спільне", "/" + encodeURIComponent(SHARED) + "/extension/FavaReport/", ""] : null,
+    ].filter(Boolean);
+  }
+
+  function tabbar(ledger, page) {
+    let bar = document.querySelector("nav.tracker-tabbar");
+    if (!bar) {
+      bar = document.createElement("nav");
+      bar.className = "tracker-tabbar";
+      document.body.append(bar);
+    }
+    const items = tabs(ledger);
+    const key = ledger + "|" + page;
+    if (bar.dataset.key === key) return;
+    bar.dataset.key = key;
+    bar.replaceChildren(...items.map(([icon, label, href, target]) => {
+      const a = document.createElement("a");
+      a.href = href;
+      if (!label) {
+        a.className = "tracker-plus";
+        a.textContent = "+";
+        a.setAttribute("aria-label", "Додати витрату");
+        // На своїй сторінці відкриваємо те саме вікно, що й кнопка «Додати витрату» в меню.
+        a.addEventListener("click", (ev) => {
+          const add = href.startsWith("#") && document.querySelector("aside a.add-transaction");
+          ev.preventDefault();
+          if (add) add.click(); else location.assign(href);
+        });
+        return a;
+      }
+      if (target && target === page) a.className = "on";
+      // Fava відкриває посилання всередині поточного обліку; інший облік завантажуємо повністю.
+      if (!href.startsWith(base(ledger))) a.addEventListener("click", (ev) => { ev.preventDefault(); location.assign(href); });
+      const i = document.createElement("i");
+      i.textContent = icon;
+      a.append(i, label);
+      return a;
+    }));
+  }
 
   function fix() {
     // Клас сторінки на <html>, щоб simple.css міг ховати зайве лише там, де треба.
@@ -69,6 +130,7 @@
         .split(" ").filter((c) => !c.startsWith("tracker-page-")).concat(cls).join(" ");
     }
     const ledger = decodeURIComponent(location.pathname.split("/")[1] || "");
+    if (ledger && allowed.includes(ledger)) tabbar(ledger, page);
     const statements = STATEMENTS[ledger === SHARED ? "shared" : "personal"];
     const labels = { ...MENU };
     for (const [target, label] of Object.values(statements)) labels["/" + target + "/"] = label;

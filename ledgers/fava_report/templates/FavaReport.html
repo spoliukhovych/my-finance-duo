@@ -1,106 +1,88 @@
 {% set r = extension.report(request.args.get('month', '')) %}
-<style>
-.frp { --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --acc:#4f46e5; --acc2:#0d9488; --soft:#f8fafc;
-       max-width: 720px; margin: 0 auto; padding: 4px 0 24px; color: var(--ink);
-       font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.4; }
-.frp * { box-sizing: border-box; }
-.frp-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
-.frp-head h2 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
-.frp-months { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
-.frp-months a { flex: none; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: #fff;
-                color: var(--ink); text-decoration: none; font-size: 14px; }
-.frp-months a.on { background: var(--acc); border-color: var(--acc); color: #fff; }
-.frp-note { background: #fef3c7; color: #92400e; border-radius: 10px; padding: 8px 12px; margin-bottom: 14px; font-size: 14px; }
-.frp-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
-.frp-kpi { border-radius: 14px; padding: 12px 14px; background: linear-gradient(135deg, #312e81, #4f46e5); color: #fff; min-width: 0; }
-.frp-kpi:nth-child(2) { background: linear-gradient(135deg, #0f766e, #14b8a6); }
-.frp-kpi:nth-child(3) { background: linear-gradient(135deg, #334155, #64748b); }
-.frp-kpi span { display: block; font-size: 12px; opacity: .85; }
-.frp-kpi b { display: block; font-size: 20px; font-weight: 700; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.frp-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 14px;
-            box-shadow: 0 1px 2px rgba(15,23,42,.04); overflow: hidden; }
-.frp-card h3 { margin: 0 0 12px; font-size: 16px; font-weight: 700; }
-.frp-card h3 small { color: var(--muted); font-weight: 500; }
-.frp-item { margin-bottom: 10px; }
-.frp-line { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.frp-line span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.frp-line b { flex: none; font-variant-numeric: tabular-nums; }
-.frp-track { height: 6px; background: #eef2ff; border-radius: 999px; margin-top: 5px; overflow: hidden; }
-.frp-fill { height: 100%; background: var(--acc); border-radius: 999px; }
-.frp-total { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 4px; font-weight: 700; }
-.frp-big { font-size: 34px; font-weight: 800; letter-spacing: -.02em; margin: 0 0 8px; }
-.frp-muted { color: var(--muted); font-size: 13px; }
-.frp-split { display: flex; height: 12px; border-radius: 999px; overflow: hidden; margin: 4px 0 12px; background: #eef2ff; }
-.frp-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: baseline; }
-.frp-rows .frp-line { padding: 6px 0; border-bottom: 1px solid var(--line); }
-.frp-rows .frp-line:last-child { border-bottom: 0; }
-@media (max-width: 520px) {
-  .frp-kpis { grid-template-columns: 1fr 1fr; }
-  .frp-kpi:first-child { grid-column: 1 / -1; }
-  .frp-big { font-size: 30px; }
-}
-</style>
+{% set shared = extension.is_shared() %}
+{# Стилі в ui/report.css: app.py підключає його на кожній сторінці. #}
 <div class="frp">
 {% if not r %}<p>Поки немає операцій.</p>{% else %}
-<div class="frp-head">
-  <h2>{{ r.title|capitalize }}</h2>
-  <nav class="frp-months">
-    {% for m in extension.months() %}<a href="?month={{ m }}" class="{{ 'on' if m == r.month else '' }}">{{ m }}</a>{% endfor %}
+<section class="frp-hero">
+  {% if shared %}
+  <small>Спільні витрати {{ r.in_month }}</small>
+  <h1 class="num">{{ r.expenses }} зл</h1>
+  <small>навпіл: по {{ r.half }} зл з кожного</small>
+  {% else %}
+  <small>Витрачено {{ r.in_month }}</small>
+  <h1 class="num">{{ r.expenses }} зл</h1>
+  <small>{% if r.has_income %}з {{ r.income }} зл доходу{% else %}дохід цього місяця ще не надійшов{% endif %}</small>
+  {% endif %}
+  <nav class="frp-pills">
+    {% for m, label in r.pills %}<a href="?month={{ m }}" class="{{ 'on' if m == r.month else '' }}">{{ label }}</a>{% endfor %}
   </nav>
-</div>
-{% if r.incomplete %}<div class="frp-note">Місяць неповний: дані до {{ r.last_date }}.</div>{% endif %}
+  {% if r.incomplete %}<small class="frp-note">Місяць ще триває: операції до {{ r.last_date }}.</small>{% endif %}
+</section>
 
-{% if extension.is_shared() %}
-<div class="frp-card">
-  <h3>Хто кому винен</h3>
-  <div class="frp-big">{{ r.debt }} зл</div>
-  <div class="frp-muted" style="margin-bottom:10px">{{ r.debtor }}</div>
-  <div class="frp-rows">
-    <div class="frp-line"><span>Оля заплатила за спільне</span><b>{{ r.paid_olya }} зл</b></div>
-    <div class="frp-line"><span>Марко заплатив за спільне</span><b>{{ r.paid_marko }} зл</b></div>
-  </div>
-  <p class="frp-muted" style="margin:10px 0 0">Ділимо навпіл: оренда, Kaufland, Auchan, світло, інтернет.</p>
+{% if shared %}
+<div class="frp-cards">
+  <div class="frp-card"><small>Оля внесла</small><b class="num" style="color: var(--olya)">{{ r.olya_short }} зл</b></div>
+  <div class="frp-card"><small>Марко вніс</small><b class="num" style="color: var(--marko)">{{ r.marko_short }} зл</b></div>
+  <div class="frp-card"><small>Борг</small><b class="num">{{ r.debt_short }} зл</b><em>{{ r.debtor_short }}</em></div>
 </div>
-<div class="frp-card">
-  <h3>Спільні витрати за категоріями</h3>
-  {% for name, value, pct in r.categories %}
-  <div class="frp-item"><div class="frp-line"><span>{{ name }}</span><b>{{ value }} зл</b></div>
-  <div class="frp-track"><div class="frp-fill" style="width: {{ pct }}%"></div></div></div>
-  {% endfor %}
+
+<h3>Хто кому винен</h3>
+<div class="frp-box">
+  <div class="frp-big num">{{ r.debt }} зл</div>
+  <p>{{ r.debtor }}. Ділимо навпіл оренду, Kaufland, Auchan, світло й інтернет.</p>
+  <div class="frp-split"><div style="width: {{ r.olya_pct }}%; background: var(--olya)"></div><div style="flex: 1; background: var(--marko)"></div></div>
+  <div class="frp-line"><span><i class="frp-dot" style="background: var(--olya)"></i>Оля заплатила</span><b class="num">{{ r.paid_olya }} зл</b></div>
+  <div class="frp-line"><span><i class="frp-dot" style="background: var(--marko)"></i>Марко заплатив</span><b class="num">{{ r.paid_marko }} зл</b></div>
 </div>
 {% else %}
-<div class="frp-kpis">
-  <div class="frp-kpi"><span>Витрати</span><b>{{ r.expenses }} зл</b></div>
-  <div class="frp-kpi"><span>Відкладено</span><b>{{ r.saved }} зл</b></div>
-  <div class="frp-kpi"><span>Норма заощаджень</span><b>{{ r.rate ~ "%" if r.has_income else "—" }}</b></div>
+<div class="frp-cards">
+  <div class="frp-card"><small>Відкладено</small><b class="num {{ 'plus' if r.has_income else '' }}">{{ r.saved_short }} зл</b></div>
+  <div class="frp-card"><small>Норма</small><b class="num">{{ r.rate ~ "%" if r.has_income else "—" }}</b></div>
+  <div class="frp-card"><small>Фіксовані</small><b class="num">{{ r.fixed_pct }}%</b></div>
 </div>
+{% endif %}
 
-<div class="frp-card">
-  <h3>1. Витрати за категоріями</h3>
-  {% for name, value, pct in r.categories %}
-  <div class="frp-item"><div class="frp-line"><span>{{ name }}</span><b>{{ value }} зл</b></div>
-  <div class="frp-track"><div class="frp-fill" style="width: {{ pct }}%"></div></div></div>
+<h3>{{ "" if shared else "1. " }}Витрати за категоріями</h3>
+<div class="frp-list">
+  {% for icon, name, value, bar, pct in r.categories %}
+  <div class="frp-row">
+    <div class="frp-av">{{ icon }}</div>
+    <div class="t"><div>{{ name }}</div><span>{{ pct }}% усіх витрат</span>
+      <div class="frp-track"><div class="frp-fill" style="width: {{ bar }}%"></div></div></div>
+    <b class="num">{{ value }}</b>
+  </div>
   {% endfor %}
-  <div class="frp-line frp-total"><span>Разом</span><b>{{ r.expenses }} зл</b></div>
+  <div class="frp-row frp-total"><div class="t"><div>Разом</div></div><b class="num">{{ r.expenses }} зл</b></div>
 </div>
 
-<div class="frp-card">
-  <h3>2. Норма заощаджень <small>(дохід − витрати) / дохід</small></h3>
-  {% if r.has_income %}<div class="frp-big">{{ r.rate }}%</div>{% else %}<p class="frp-muted">Цього місяця дохід ще не надійшов, тому норму порахувати не можна.</p>{% endif %}
-  <div class="frp-rows">
-    <div class="frp-line"><span>Дохід</span><b>{{ r.income }} зл</b></div>
-    <div class="frp-line"><span>Витрати</span><b>{{ r.expenses }} зл</b></div>
-    <div class="frp-line"><span>Відкладено</span><b>{{ r.saved }} зл</b></div>
+<h3>Останні операції</h3>
+<div class="frp-list">
+  {% for op in r.recent %}
+  <div class="frp-row">
+    <div class="frp-av">{{ op.icon }}</div>
+    <div class="t"><div>{{ op.title }}</div>
+      <span>{% if op.who %}<i class="frp-who {{ 'marko' if op.who == 'Марко' else 'olya' }}">{{ op.who }}</i>{% endif %}{{ op.date }} · {{ op.category }}</span></div>
+    <b class="num {{ 'plus' if op.plus else '' }}">{{ op.amount }}</b>
   </div>
+  {% endfor %}
+  <a class="frp-more" href="../../account/{{ 'Expenses' if shared else 'Assets' }}/">Усі операції →</a>
 </div>
 
-<div class="frp-card">
-  <h3>3. Фіксовані і змінні <small>змінними можна керувати</small></h3>
-  <div class="frp-split"><div style="width: {{ r.fixed_pct }}%; background:#94a3b8"></div><div style="flex:1; background:#14b8a6"></div></div>
-  <div class="frp-rows">
-    <div class="frp-line"><span><i class="frp-dot" style="background:#94a3b8"></i>Фіксовані</span><b>{{ r.fixed }} зл</b></div>
-    <div class="frp-line"><span><i class="frp-dot" style="background:#14b8a6"></i>Змінні</span><b>{{ r.variable }} зл</b></div>
-  </div>
+{% if not shared %}
+<h3>2. Норма заощаджень <small>(дохід − витрати) / дохід</small></h3>
+<div class="frp-box">
+  {% if r.has_income %}<div class="frp-big num">{{ r.rate }}%</div>
+  {% else %}<p>Цього місяця дохід ще не надійшов, тому норму порахувати не можна.</p>{% endif %}
+  <div class="frp-line"><span>Дохід</span><b class="num">{{ r.income }} зл</b></div>
+  <div class="frp-line"><span>Витрати</span><b class="num">{{ r.expenses }} зл</b></div>
+  <div class="frp-line"><span>Відкладено</span><b class="num">{{ r.saved }} зл</b></div>
+</div>
+
+<h3>3. Фіксовані і змінні <small>змінними можна керувати</small></h3>
+<div class="frp-box">
+  <div class="frp-split"><div style="width: {{ r.fixed_pct }}%; background: #9ca3af"></div><div style="flex: 1; background: var(--coral)"></div></div>
+  <div class="frp-line"><span><i class="frp-dot" style="background: #9ca3af"></i>Фіксовані: щомісячні платежі</span><b class="num">{{ r.fixed }} зл</b></div>
+  <div class="frp-line"><span><i class="frp-dot" style="background: var(--coral)"></i>Змінні</span><b class="num">{{ r.variable }} зл</b></div>
 </div>
 {% endif %}
 {% endif %}

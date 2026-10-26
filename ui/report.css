@@ -1,0 +1,92 @@
+/* Стиль сторінок «Звіт за місяць» і «Спільні витрати» (розширення fava_report і fava_shared).
+   app.py додає цей файл на кожну сторінку, тож шаблони містять лише розмітку. */
+.frp {
+  --coral: #ff5a5f; --coral2: #ff8a5b; --ink: #111827; --muted: #6b7280; --line: #f1f2f6;
+  --green: #10b981; --red: #ef4444; --olya: #6366f1; --marko: #14b8a6;
+  max-width: 720px; margin: 0 auto 24px; color: var(--ink);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.4;
+}
+.frp * { box-sizing: border-box; }
+.frp .num { font-variant-numeric: tabular-nums; }
+
+/* Верх сторінки: велика сума на кораловому градієнті. */
+.frp-hero {
+  background: linear-gradient(160deg, var(--coral), var(--coral2)); color: #fff;
+  border-radius: 28px; padding: 22px 20px 70px;
+}
+.frp-hero small { display: block; font-size: 14px; opacity: .88; }
+.frp-hero h1 { margin: 4px 0; font-size: 40px; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; color: #fff; }
+.frp-pills { display: flex; gap: 8px; margin-top: 14px; overflow-x: auto; scrollbar-width: none; }
+.frp-pills a {
+  flex: none; padding: 6px 14px; border-radius: 999px; background: rgba(255, 255, 255, .22);
+  color: #fff; text-decoration: none; font-size: 14px;
+}
+.frp-pills a.on { background: #fff; color: var(--coral); font-weight: 700; }
+
+/* Три картки, що наїжджають на верхній блок. */
+.frp-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: -50px 14px 0; position: relative; }
+.frp-card {
+  background: #fff; border-radius: 18px; padding: 14px; min-width: 0;
+  box-shadow: 0 8px 24px rgba(17, 24, 39, .08);
+}
+.frp-card small { display: block; color: var(--muted); font-size: 12px; }
+.frp-card b { display: block; font-size: 19px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.frp-card em { display: block; font-style: normal; color: var(--muted); font-size: 12px; margin-top: 2px;
+               white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Секції: заголовок і білий список. */
+.frp h3 { margin: 22px 6px 8px; font-size: 17px; font-weight: 700; color: var(--ink); }
+.frp h3 small { color: var(--muted); font-weight: 500; font-size: 13px; }
+.frp-list { background: #fff; border-radius: 18px; padding: 4px 14px; }
+.frp-row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--line); min-width: 0; }
+.frp-row:last-child { border-bottom: 0; }
+.frp-av {
+  flex: none; width: 40px; height: 40px; border-radius: 50%; background: #fff1ec;
+  display: grid; place-items: center; font-size: 19px;
+}
+.frp-row .t { flex: 1; min-width: 0; }
+.frp-row .t div { font-weight: 600; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.frp-row .t span { color: #9ca3af; font-size: 12px; }
+.frp-row > b { flex: none; min-width: 84px; text-align: right; font-size: 15px; }
+.frp-track { height: 5px; background: #f3f4f6; border-radius: 999px; margin-top: 6px; overflow: hidden; }
+.frp-fill { height: 100%; background: var(--coral); border-radius: 999px; }
+.frp-total { font-weight: 700; }
+.frp-more { display: block; text-align: center; padding: 12px 0 8px; color: var(--coral); font-weight: 600; text-decoration: none; }
+.plus { color: var(--green) !important; }
+.minus { color: var(--red) !important; }
+
+/* Позначка «хто заплатив» у спільному обліку. */
+.frp-who { display: inline-block; font-style: normal; padding: 1px 8px; border-radius: 999px; color: #fff; font-size: 11px; font-weight: 700; margin-right: 6px; }
+.frp-who.olya { background: var(--olya); }
+.frp-who.marko { background: var(--marko); }
+
+/* Картки з поясненням (норма заощаджень, фіксовані й змінні). */
+.frp-box { background: #fff; border-radius: 18px; padding: 16px; }
+.frp-box p { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
+.frp-big { font-size: 34px; font-weight: 800; letter-spacing: -.02em; margin: 0 0 8px; }
+.frp-split { display: flex; height: 12px; border-radius: 999px; overflow: hidden; margin: 2px 0 12px; background: #f3f4f6; }
+.frp-line { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.frp-line:last-child { border-bottom: 0; }
+.frp-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+
+/* Таблиця «категорія × місяць» на сторінці «Спільні витрати». */
+.frp-scroll { overflow-x: auto; background: #fff; border-radius: 18px; }
+.frp-table { border-collapse: collapse; width: 100%; min-width: max-content; font-size: 14px; }
+.frp-table th, .frp-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap;
+                               font-variant-numeric: tabular-nums; }
+.frp-table th:first-child, .frp-table td:first-child { text-align: left; position: sticky; left: 0; background: #fff; }
+.frp-table thead th { color: var(--muted); font-weight: 500; }
+.frp-table tfoot td { font-weight: 700; border-bottom: 0; }
+
+@media (max-width: 767px) {
+  /* На телефоні верхній блок на всю ширину екрана, як у банківських застосунках. */
+  .frp-hero { margin: -1em -1em 0; border-radius: 0 0 28px 28px; padding-top: 16px; }
+  .frp-hero h1 { font-size: 36px; }
+  .frp-cards { margin: -50px 2px 0; gap: 8px; }
+  .frp-card { padding: 12px 10px; }
+  .frp-card b { font-size: 17px; }
+}
+
+.frp-note { display: inline-block; margin-top: 12px; padding: 4px 10px; border-radius: 999px;
+            background: rgba(255, 255, 255, .22); font-size: 13px; opacity: 1 !important; }
+.frp-pair { display: inline-block; white-space: nowrap; margin: 2px 12px 0 0; }

@@ -19,9 +19,9 @@ aside ul.navigation:has(a[href*="/extension/FavaReport/"]) { order: -1; }
 
 /* Кнопка «+» стає помітною кнопкою «Додати витрату». */
 aside a.add-transaction {
-  display: block !important; margin: 10px 0.5rem !important; padding: 9px 12px !important;
-  border-radius: 8px !important; background: #4f46e5 !important; color: #fff !important;
-  font-size: 15px !important; font-weight: 600 !important; line-height: 1.2 !important;
+  display: block !important; margin: 10px 8px !important; padding: 9px 8px !important;
+  border-radius: 999px !important; background: var(--tracker-coral) !important; color: #fff !important;
+  font-size: 14px !important; font-weight: 600 !important; line-height: 1.2 !important;
   text-align: center !important; white-space: nowrap; width: auto !important; height: auto !important;
 }
 aside li:has(> a.add-transaction) { display: block !important; }
@@ -66,6 +66,8 @@ article button:has(> i[style*="background-color"]) { pointer-events: none; curso
 @media (max-width: 767px) {
   .tracker-statement ol.journal > li > p > .num:last-child { display: none; }
   .tracker-statement ol.journal > li > p > .change { flex: 1; text-align: right; white-space: nowrap; }
+  .tracker-statement ol.journal > li.head > p > .flag { flex: 0 0 0.5rem; }
+  .tracker-statement ol.journal > li.head > p > button.num { flex: 1; text-align: right; white-space: nowrap; }
 }
 
 /* Таблиці по періодах на телефоні гортаються вбік, а не обрізаються. */
@@ -82,11 +84,72 @@ header h1 strong[data-tracker-title]::after { content: attr(data-tracker-title);
 /* Спільний облік: хто заплатив (payee) — кольорова позначка перед описом покупки. */
 .tracker-shared ol.journal .payee:not(:empty) {
   display: inline-block; margin-right: 8px; padding: 1px 8px; border-radius: 999px;
-  font-size: 12px; font-weight: 600; color: #fff; background: #4f46e5; vertical-align: 1px;
+  font-size: 12px; font-weight: 600; color: #fff; background: #6366f1; vertical-align: 1px;
 }
-.tracker-shared ol.journal .payee.tracker-marko { background: #0d9488; }
+.tracker-shared ol.journal .payee.tracker-marko { background: #14b8a6; }
 .tracker-shared ol.journal .payee + .separator { display: none; }
 
 /* Фільтри в шапці (період, рахунок, пошук) прибираємо: на телефоні вони займають пів екрана,
    а місяць обирається кнопками у звіті й перемикачем «Щомісячно» на графіках. */
 header > .flex-row:has(input[role="combobox"]) { display: none !important; }
+
+/* ---------- Оформлення «Банк у кишені»: кораловий акцент, світлий фон, білі картки ---------- */
+/* Завжди світла тема: звіт намальовано під світлий фон. */
+html:root, html:root[data-color-scheme] {
+  --lightningcss-light: initial; --lightningcss-dark: ; color-scheme: light;
+  --tracker-coral: #ff5a5f; --tracker-coral2: #ff8a5b; --tracker-bg: #f4f5f9;
+  --font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --background-darker: var(--tracker-bg);
+  --header-background: linear-gradient(160deg, var(--tracker-coral), var(--tracker-coral2));
+  --header-placeholder-background: rgba(255, 255, 255, .22);
+  --link-color: #e8484d; --link-color-lighter: var(--tracker-coral);
+  --button-background: var(--tracker-coral);
+  --sidebar-background: #fff; --sidebar-border: #f1f2f6; --sidebar-hover-color: var(--tracker-coral);
+  --table-header-background: #fff; --table-border: #f1f2f6; --table-background-even: #fafbfd;
+  --text-color: #111827; --background-button: #eceef3;
+}
+body, article { background: var(--tracker-bg); }
+header { background: var(--header-background) !important; }
+/* Назви рахунків і дати — звичайним кольором, щоб червоний не читався як помилка. */
+article a.account, ol.journal .datecell a { color: var(--text-color) !important; }
+ol.journal .datecell a { color: #6b7280 !important; }
+article button:not(.unset), dialog button:not(.unset) { border-radius: 12px; }
+dialog input, dialog select { border-radius: 12px; }
+aside a.selected, aside a:hover { color: var(--tracker-coral) !important; }
+aside a.selected { background: #fff1ec !important; }
+article button.unset.selected { color: var(--tracker-coral); }
+/* Таблиці й журнал Fava на білих картках з округленими кутами. */
+article ol.journal, article .flex-table, article ol.tree-table-new { background: #fff; border-radius: 18px; }
+article ol.tree-table-new > li.head, article ol.journal > li.head,
+article ol.journal > li.head * { background: #fff !important; }
+
+/* Нижнє меню (simple.js додає його на кожну сторінку); видно лише на телефоні. */
+nav.tracker-tabbar { display: none; }
+@media (max-width: 767px) {
+  nav.tracker-tabbar {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 2;
+    justify-content: space-around; align-items: flex-start;
+    padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+    background: #fff; box-shadow: 0 -1px 0 #eceef3;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  nav.tracker-tabbar a {
+    display: flex; flex-direction: column; align-items: center; gap: 2px; width: 64px;
+    font-size: 11px; color: #9ca3af; text-decoration: none;
+  }
+  nav.tracker-tabbar a i { font-style: normal; font-size: 21px; line-height: 24px; filter: grayscale(1); opacity: .7; }
+  nav.tracker-tabbar a.on { color: var(--tracker-coral); font-weight: 600; }
+  nav.tracker-tabbar a.on i { filter: none; opacity: 1; }
+  nav.tracker-tabbar a.tracker-plus {
+    width: 52px; height: 52px; margin-top: -18px; border-radius: 50%; justify-content: center;
+    background: var(--tracker-coral); color: #fff; font-size: 30px; font-weight: 300; line-height: 1;
+    box-shadow: 0 6px 16px rgba(255, 90, 95, .4);
+  }
+  /* Місце під нижнє меню, щоб воно не закривало кінець сторінки. */
+  article { padding-bottom: 96px !important; }
+  /* Кнопка «+» зверху зайва: є велика «+» внизу. ☰ — прозора, на кораловій шапці. */
+  .aside-buttons > a { display: none !important; }
+  .aside-buttons > button { background: transparent !important; border: 0 !important; color: #fff !important; }
+  /* Вікно «+» на весь екран закриває нижнє меню. */
+  body:has(dialog[open]) nav.tracker-tabbar { display: none; }
+}

@@ -70,5 +70,7 @@ class SharedExpenses(FavaExtensionBase):
             "months": [r["title"] for r in rows],
             "categories": categories,
             "total_olya": money(totals["Оля"]), "total_marko": money(totals["Марко"]),
+            "olya_short": f"{totals['Оля']:,.0f}".replace(",", " "),
+            "marko_short": f"{totals['Марко']:,.0f}".replace(",", " "),
             "total_all": money(totals["разом"]),
         }
