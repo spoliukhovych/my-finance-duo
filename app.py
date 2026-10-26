@@ -42,7 +42,7 @@ USERS = {
 }
 REPORT = "extension/FavaReport/"
 MAX_FAILS, LOCK_SECONDS = 5, 60
-UI = ROOT / "ui"  # спрощений вигляд Fava: simple.css, simple.js і report.css (звіти)
+UI = ROOT / "ui"  # спрощений вигляд Fava: simple.*, report.css (звіти), cash.js (вікно «+»)
 # Сторінки й дії Fava, які змінюють файли обліку. Редактор закрито, щоб випадково не зламати облік.
 BLOCKED_PAGES = {"editor", "import"}
 ALLOWED_WRITES = {"api/add_entries", "api/source_slice"}
@@ -122,7 +122,8 @@ button {{ width: 100%; margin-top: 20px; padding: 14px; font-size: 16px; font-we
 
     def static_ui(self, path):
         name = path.rsplit("/", 1)[-1]
-        types = {"simple.css": "text/css", "simple.js": "text/javascript", "report.css": "text/css"}
+        types = {"simple.css": "text/css", "simple.js": "text/javascript", "report.css": "text/css",
+                 "cash.js": "text/javascript"}
         if name not in types:
             return Response("Не знайдено.", status=404)
         return Response((UI / name).read_bytes(), mimetype=types[name])
@@ -159,7 +160,7 @@ button {{ width: 100%; margin-top: 20px; padding: 14px; font-size: 16px; font-we
         ledgers = json.dumps(USERS[user]["ledgers"], ensure_ascii=False)
         head = (f'<link rel="stylesheet" href="/ui/simple.css"><link rel="stylesheet" href="/ui/report.css">'
                 f"<script>window.TRACKER_LEDGERS = {ledgers};</script>"
-                f'<script defer src="/ui/simple.js"></script></head>')
+                f'<script defer src="/ui/simple.js"></script><script defer src="/ui/cash.js"></script></head>')
         response.set_data(html.replace("</head>", head, 1))
         return response
 

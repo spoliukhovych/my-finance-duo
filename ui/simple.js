@@ -235,7 +235,7 @@
       const p = (input.closest("dialog") ? DIALOG_PLACEHOLDER : PLACEHOLDER)[input.placeholder];
       if (p) input.placeholder = p;
     }
-    const form = document.querySelector("dialog form");
+    const form = document.querySelector("dialog:not(.tracker-cash) form");
     const submit = form && form.querySelector('button[type="submit"]');
     if (submit && !form.querySelector(".tracker-hint")) {
       const hint = document.createElement("p");
