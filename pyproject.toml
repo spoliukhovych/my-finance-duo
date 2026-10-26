@@ -1,0 +1,13 @@
+[project]
+name = "my-finance-duo"
+version = "0.1.0"
+description = "Трекер витрат для двох (Оля і Марко) на Beancount і Fava"
+requires-python = ">=3.10"
+dependencies = [
+    "beancount==3.2.3",
+    "beanquery==0.2.0",
+    "fava==1.30.16",
+]
+
+[tool.uv]
+package = false

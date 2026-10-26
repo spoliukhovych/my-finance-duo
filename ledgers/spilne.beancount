@@ -1,0 +1,22 @@
+option "title" "Спільне"
+option "operating_currency" "PLN"
+
+2026-07-01 custom "fava-extension" "fava_report"
+2026-07-01 custom "fava-option" "language" "uk"
+
+; Спільні витрати (оренда, Kaufland, Auchan, світло, інтернет) ділимо навпіл.
+; Assets:Заплатив:<імʼя> показує, скільки кожен заплатив за спільне (зі знаком мінус).
+2026-07-01 open Assets:Заплатив:Оля            PLN
+2026-07-01 open Assets:Заплатив:Марко          PLN
+2026-07-01 open Expenses:Житло                 PLN
+2026-07-01 open Expenses:Продукти              PLN
+2026-07-01 open Expenses:Звязок                PLN
+2026-07-01 open Expenses:Комунальні            PLN
+
+2026-07-01 query "хто-кому-винен" "
+  SELECT year, month, account, sum(number) AS paid
+  WHERE account ~ '^Assets:Заплатив'
+  GROUP BY year, month, account
+  ORDER BY year, month, account"
+
+include "spilne-transactions.beancount"

@@ -1,0 +1,52 @@
+{% set r = extension.report(request.args.get('month', '')) %}
+<style>
+.fr { max-width: 640px; font-size: 15px; }
+.fr select { font-size: 15px; padding: 4px 6px; margin: 4px 0 12px; }
+.fr .card { border: 1px solid var(--border, #ddd); border-radius: 10px; padding: 12px 14px; margin: 0 0 14px; }
+.fr h3 { margin: 0 0 8px; font-size: 16px; }
+.fr .big { font-size: 28px; font-weight: 700; margin: 2px 0; }
+.fr .muted { opacity: .7; font-size: 13px; }
+.fr .row { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; }
+.fr .bar { height: 6px; background: #4f46e5; border-radius: 3px; margin: 0 0 6px; }
+.fr .split { display: flex; height: 14px; border-radius: 7px; overflow: hidden; margin: 6px 0; }
+.fr .warn { background: #fef3c7; color: #92400e; border-radius: 6px; padding: 6px 10px; margin-bottom: 12px; }
+</style>
+<div class="fr">
+{% if not r %}<p>Поки немає операцій.</p>{% else %}
+<form method="get">
+  <label>Місяць:
+  <select name="month" onchange="this.form.submit()">
+    {% for m in extension.months() %}<option value="{{ m }}" {% if m == r.month %}selected{% endif %}>{{ m }}</option>{% endfor %}
+  </select></label>
+</form>
+{% if r.incomplete %}<div class="warn">Місяць неповний: дані до {{ r.last_date }}.</div>{% endif %}
+
+{% if extension.is_shared() %}
+<div class="card"><h3>Хто кому винен за {{ r.title }}</h3>
+  <div class="big">{{ r.debt }} зл</div><div>{{ r.debtor }}</div>
+  <div class="row"><span>Оля заплатила за спільне</span><b>{{ r.paid_olya }} зл</b></div>
+  <div class="row"><span>Марко заплатив за спільне</span><b>{{ r.paid_marko }} зл</b></div>
+  <p class="muted">Спільне ділимо навпіл: оренда, Kaufland, Auchan, світло, інтернет.</p>
+</div>
+<div class="card"><h3>Спільні витрати за категоріями</h3>
+  {% for name, value, pct in r.categories %}<div class="row"><span>{{ name }}</span><b>{{ value }} зл</b></div><div class="bar" style="width: {{ pct }}%"></div>{% endfor %}
+</div>
+{% else %}
+<div class="card"><h3>1. Витрати за категоріями, {{ r.title }}</h3>
+  {% for name, value, pct in r.categories %}<div class="row"><span>{{ name }}</span><b>{{ value }} зл</b></div><div class="bar" style="width: {{ pct }}%"></div>{% endfor %}
+  <div class="row"><span><b>Разом</b></span><b>{{ r.expenses }} зл</b></div>
+</div>
+<div class="card"><h3>2. Норма заощаджень</h3>
+  <div class="big">{{ r.rate }}%</div>
+  <div class="row"><span>Дохід</span><b>{{ r.income }} зл</b></div>
+  <div class="row"><span>Витрати</span><b>{{ r.expenses }} зл</b></div>
+  <div class="row"><span>Відкладено (дохід − витрати)</span><b>{{ r.saved }} зл</b></div>
+</div>
+<div class="card"><h3>3. Фіксовані і змінні</h3>
+  <div class="split"><div style="width: {{ r.fixed_pct }}%; background:#94a3b8"></div><div style="flex:1; background:#0d9488"></div></div>
+  <div class="row"><span>Фіксовані</span><b>{{ r.fixed }} зл</b></div>
+  <div class="row"><span>Змінні (ними можна керувати)</span><b>{{ r.variable }} зл</b></div>
+</div>
+{% endif %}
+{% endif %}
+</div>

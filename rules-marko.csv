@@ -1,0 +1,19 @@
+шаблон,рахунок,фіксована,спільна
+WYNAGRODZENIE,Income:Зарплата,ні,ні
+ORANGE POLSKA S.A. ŚWIATŁOWÓD,Expenses:Звязок,так,так
+ORANGE POLSKA,Expenses:Звязок,так,ні
+PGE OBRÓT,Expenses:Комунальні,так,так
+ZDROFIT,Expenses:Спорт,так,ні
+YOUTUBE PREMIUM,Expenses:Підписки,так,ні
+KAUFLAND,Expenses:Продукти,ні,так
+AUCHAN,Expenses:Продукти,ні,так
+BIEDRONKA,Expenses:Продукти,ні,ні
+ŻABKA,Expenses:Продукти,ні,ні
+PYSZNE.PL,Expenses:Доставка-Їжі,ні,ні
+BOLT,Expenses:Транспорт,ні,ні
+UBER,Expenses:Транспорт,ні,ні
+COSTA COFFEE,Expenses:Кафе,ні,ні
+MANEKIN,Expenses:Кафе,ні,ні
+SUPER-PHARM,Expenses:Побут,ні,ні
+ALLEGRO,Expenses:Покупки,ні,ні
+STEAMGAMES,Expenses:Розваги,ні,ні

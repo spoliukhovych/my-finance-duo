@@ -1,0 +1,32 @@
+option "title" "Марко"
+option "operating_currency" "PLN"
+
+2026-07-01 custom "fava-extension" "fava_report"
+2026-07-01 custom "fava-option" "language" "uk"
+
+2026-07-01 open Assets:Банк                    PLN
+2026-07-01 open Assets:Готівка                 PLN
+2026-07-01 open Equity:Початковий-Залишок      PLN
+2026-07-01 open Income:Зарплата                PLN
+2026-07-01 open Income:Інше                    PLN
+2026-07-01 open Expenses:Продукти              PLN
+2026-07-01 open Expenses:Кафе                  PLN
+2026-07-01 open Expenses:Доставка-Їжі          PLN
+2026-07-01 open Expenses:Транспорт             PLN
+2026-07-01 open Expenses:Підписки              PLN
+2026-07-01 open Expenses:Побут                 PLN
+2026-07-01 open Expenses:Спорт                 PLN
+2026-07-01 open Expenses:Звязок                PLN
+2026-07-01 open Expenses:Комунальні            PLN
+2026-07-01 open Expenses:Покупки               PLN
+2026-07-01 open Expenses:Розваги               PLN
+2026-07-01 open Expenses:Інше                  PLN
+2026-07-01 open Expenses:Без-Категорії         PLN
+
+2026-07-31 * "Початковий залишок"
+  Assets:Банк                    2860.40 PLN
+  Equity:Початковий-Залишок     -2860.40 PLN
+
+include "queries.beancount"
+include "marko-transactions.beancount"
+include "marko-manual.beancount"

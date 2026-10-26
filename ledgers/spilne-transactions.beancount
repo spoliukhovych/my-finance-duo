@@ -1,0 +1,78 @@
+; Згенеровано importer.py — не редагуйте вручну
+
+2026-08-01 * "Rent — Mokotów flat" #shared
+  Expenses:Житло  3200.00 PLN
+  Assets:Заплатив:Оля  -3200.00 PLN
+
+2026-08-03 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Expenses:Продукти  226.21 PLN
+  Assets:Заплатив:Марко  -226.21 PLN
+
+2026-08-04 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Expenses:Продукти  181.85 PLN
+  Assets:Заплатив:Марко  -181.85 PLN
+
+2026-08-12 * "ORANGE POLSKA S.A. ŚWIATŁOWÓD" #shared
+  Expenses:Звязок  79.00 PLN
+  Assets:Заплатив:Марко  -79.00 PLN
+
+2026-08-14 * "AUCHAN WARSZAWA" #shared
+  Expenses:Продукти  258.81 PLN
+  Assets:Заплатив:Марко  -258.81 PLN
+
+2026-08-20 * "PGE OBRÓT S.A. ENERGIA ELEKTRYCZNA" #shared
+  Expenses:Комунальні  142.30 PLN
+  Assets:Заплатив:Марко  -142.30 PLN
+
+2026-09-01 * "Rent — Mokotów flat" #shared
+  Expenses:Житло  3200.00 PLN
+  Assets:Заплатив:Оля  -3200.00 PLN
+
+2026-09-10 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Expenses:Продукти  187.69 PLN
+  Assets:Заплатив:Марко  -187.69 PLN
+
+2026-09-12 * "ORANGE POLSKA S.A. ŚWIATŁOWÓD" #shared
+  Expenses:Звязок  79.00 PLN
+  Assets:Заплатив:Марко  -79.00 PLN
+
+2026-09-12 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Expenses:Продукти  237.62 PLN
+  Assets:Заплатив:Марко  -237.62 PLN
+
+2026-09-15 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Expenses:Продукти  215.47 PLN
+  Assets:Заплатив:Марко  -215.47 PLN
+
+2026-09-17 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Expenses:Продукти  215.59 PLN
+  Assets:Заплатив:Марко  -215.59 PLN
+
+2026-09-21 * "PGE OBRÓT S.A. ENERGIA ELEKTRYCZNA" #shared
+  Expenses:Комунальні  138.90 PLN
+  Assets:Заплатив:Марко  -138.90 PLN
+
+2026-09-26 * "AUCHAN WARSZAWA" #shared
+  Expenses:Продукти  278.88 PLN
+  Assets:Заплатив:Марко  -278.88 PLN
+
+2026-09-28 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Expenses:Продукти  241.25 PLN
+  Assets:Заплатив:Марко  -241.25 PLN
+
+2026-10-01 * "Rent — Mokotów flat" #shared
+  Expenses:Житло  3200.00 PLN
+  Assets:Заплатив:Оля  -3200.00 PLN
+
+2026-10-07 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Expenses:Продукти  184.86 PLN
+  Assets:Заплатив:Марко  -184.86 PLN
+
+2026-10-12 * "ORANGE POLSKA S.A. ŚWIATŁOWÓD" #shared
+  Expenses:Звязок  79.00 PLN
+  Assets:Заплатив:Марко  -79.00 PLN
+
+2026-10-15 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Expenses:Продукти  178.95 PLN
+  Assets:Заплатив:Марко  -178.95 PLN
+

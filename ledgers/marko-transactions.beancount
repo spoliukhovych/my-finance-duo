@@ -1,0 +1,441 @@
+; Згенеровано importer.py — не редагуйте вручну
+
+2026-08-01 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -24.64 PLN
+  Expenses:Продукти  24.64 PLN
+
+2026-08-01 * "BOLT.EU/R TALLINN"
+  Assets:Банк  -19.58 PLN
+  Expenses:Транспорт  19.58 PLN
+
+2026-08-02 * "UBER *TRIP HELP.UBER.COM"
+  Assets:Банк  -35.07 PLN
+  Expenses:Транспорт  35.07 PLN
+
+2026-08-03 * "ZDROFIT KARNET MIESIĘCZNY WARSZAWA" #fixed
+  Assets:Банк  -159.00 PLN
+  Expenses:Спорт  159.00 PLN
+
+2026-08-03 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Assets:Банк  -226.21 PLN
+  Expenses:Продукти  226.21 PLN
+
+2026-08-04 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Assets:Банк  -181.85 PLN
+  Expenses:Продукти  181.85 PLN
+
+2026-08-06 * "GOOGLE *YOUTUBE PREMIUM" #fixed
+  Assets:Банк  -25.99 PLN
+  Expenses:Підписки  25.99 PLN
+
+2026-08-08 * "STEAMGAMES.COM 4259522985"
+  Assets:Банк  -87.00 PLN
+  Expenses:Розваги  87.00 PLN
+
+2026-08-09 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -11.19 PLN
+  Expenses:Продукти  11.19 PLN
+
+2026-08-09 * "UBER *TRIP HELP.UBER.COM"
+  Assets:Банк  -47.59 PLN
+  Expenses:Транспорт  47.59 PLN
+
+2026-08-09 * "PYSZNE.PL"
+  Assets:Банк  -66.66 PLN
+  Expenses:Доставка-Їжі  66.66 PLN
+
+2026-08-11 * "BIEDRONKA 4417 WARSZAWA"
+  Assets:Банк  -19.58 PLN
+  Expenses:Продукти  19.58 PLN
+
+2026-08-12 * "ORANGE POLSKA S.A. ŚWIATŁOWÓD" #fixed #shared
+  Assets:Банк  -79.00 PLN
+  Expenses:Звязок  79.00 PLN
+
+2026-08-12 * "ORANGE POLSKA S.A. ABONAMENT GSM" #fixed
+  Assets:Банк  -55.00 PLN
+  Expenses:Звязок  55.00 PLN
+
+2026-08-12 * "UBER *TRIP HELP.UBER.COM"
+  Assets:Банк  -22.32 PLN
+  Expenses:Транспорт  22.32 PLN
+
+2026-08-14 * "AUCHAN WARSZAWA" #shared
+  Assets:Банк  -258.81 PLN
+  Expenses:Продукти  258.81 PLN
+
+2026-08-15 * "UBER *TRIP HELP.UBER.COM"
+  Assets:Банк  -39.42 PLN
+  Expenses:Транспорт  39.42 PLN
+
+2026-08-16 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -33.39 PLN
+  Expenses:Продукти  33.39 PLN
+
+2026-08-16 * "COSTA COFFEE WARSZAWA"
+  Assets:Банк  -21.00 PLN
+  Expenses:Кафе  21.00 PLN
+
+2026-08-17 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -28.36 PLN
+  Expenses:Продукти  28.36 PLN
+
+2026-08-17 * "MANEKIN WARSZAWA"
+  Assets:Банк  -91.38 PLN
+  Expenses:Кафе  91.38 PLN
+
+2026-08-19 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -25.63 PLN
+  Expenses:Продукти  25.63 PLN
+
+2026-08-20 * "PGE OBRÓT S.A. ENERGIA ELEKTRYCZNA" #fixed #shared
+  Assets:Банк  -142.30 PLN
+  Expenses:Комунальні  142.30 PLN
+
+2026-08-21 * "SUPER-PHARM WARSZAWA"
+  Assets:Банк  -60.34 PLN
+  Expenses:Побут  60.34 PLN
+
+2026-08-22 * "BIEDRONKA 4417 WARSZAWA"
+  Assets:Банк  -66.29 PLN
+  Expenses:Продукти  66.29 PLN
+
+2026-08-22 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -34.70 PLN
+  Expenses:Продукти  34.70 PLN
+
+2026-08-23 * "BIEDRONKA 4417 WARSZAWA"
+  Assets:Банк  -20.90 PLN
+  Expenses:Продукти  20.90 PLN
+
+2026-08-23 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -17.89 PLN
+  Expenses:Продукти  17.89 PLN
+
+2026-08-23 * "BOLT.EU/R TALLINN"
+  Assets:Банк  -35.26 PLN
+  Expenses:Транспорт  35.26 PLN
+
+2026-08-23 * "PYSZNE.PL"
+  Assets:Банк  -94.56 PLN
+  Expenses:Доставка-Їжі  94.56 PLN
+
+2026-08-24 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -37.13 PLN
+  Expenses:Продукти  37.13 PLN
+
+2026-08-25 * "PYSZNE.PL"
+  Assets:Банк  -68.61 PLN
+  Expenses:Доставка-Їжі  68.61 PLN
+
+2026-08-27 * "NORTHWIND LOGISTICS SP. Z O.O. WYNAGRODZENIE 08/2026"
+  Assets:Банк  7600.00 PLN
+  Income:Зарплата  -7600.00 PLN
+
+2026-08-27 * "BIEDRONKA 4417 WARSZAWA"
+  Assets:Банк  -42.17 PLN
+  Expenses:Продукти  42.17 PLN
+
+2026-08-27 * "PYSZNE.PL"
+  Assets:Банк  -50.33 PLN
+  Expenses:Доставка-Їжі  50.33 PLN
+
+2026-08-27 * "COSTA COFFEE WARSZAWA"
+  Assets:Банк  -14.69 PLN
+  Expenses:Кафе  14.69 PLN
+
+2026-08-28 * "BOLT.EU/R TALLINN"
+  Assets:Банк  -23.91 PLN
+  Expenses:Транспорт  23.91 PLN
+
+2026-08-29 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -16.43 PLN
+  Expenses:Продукти  16.43 PLN
+
+2026-08-30 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -32.68 PLN
+  Expenses:Продукти  32.68 PLN
+
+2026-09-01 * "BIEDRONKA 4417 WARSZAWA"
+  Assets:Банк  -19.54 PLN
+  Expenses:Продукти  19.54 PLN
+
+2026-09-02 * "BOLT.EU/R TALLINN"
+  Assets:Банк  -28.63 PLN
+  Expenses:Транспорт  28.63 PLN
+
+2026-09-03 * "ZDROFIT KARNET MIESIĘCZNY WARSZAWA" #fixed
+  Assets:Банк  -159.00 PLN
+  Expenses:Спорт  159.00 PLN
+
+2026-09-03 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -36.26 PLN
+  Expenses:Продукти  36.26 PLN
+
+2026-09-05 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -14.61 PLN
+  Expenses:Продукти  14.61 PLN
+
+2026-09-06 * "GOOGLE *YOUTUBE PREMIUM" #fixed
+  Assets:Банк  -25.99 PLN
+  Expenses:Підписки  25.99 PLN
+
+2026-09-06 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -14.94 PLN
+  Expenses:Продукти  14.94 PLN
+
+2026-09-10 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Assets:Банк  -187.69 PLN
+  Expenses:Продукти  187.69 PLN
+
+2026-09-10 * "BIEDRONKA 4417 WARSZAWA"
+  Assets:Банк  -41.94 PLN
+  Expenses:Продукти  41.94 PLN
+
+2026-09-10 * "COSTA COFFEE WARSZAWA"
+  Assets:Банк  -15.27 PLN
+  Expenses:Кафе  15.27 PLN
+
+2026-09-11 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -9.66 PLN
+  Expenses:Продукти  9.66 PLN
+
+2026-09-12 * "ORANGE POLSKA S.A. ŚWIATŁOWÓD" #fixed #shared
+  Assets:Банк  -79.00 PLN
+  Expenses:Звязок  79.00 PLN
+
+2026-09-12 * "ORANGE POLSKA S.A. ABONAMENT GSM" #fixed
+  Assets:Банк  -55.00 PLN
+  Expenses:Звязок  55.00 PLN
+
+2026-09-12 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Assets:Банк  -237.62 PLN
+  Expenses:Продукти  237.62 PLN
+
+2026-09-12 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -23.49 PLN
+  Expenses:Продукти  23.49 PLN
+
+2026-09-13 * "BIEDRONKA 4417 WARSZAWA"
+  Assets:Банк  -62.60 PLN
+  Expenses:Продукти  62.60 PLN
+
+2026-09-13 * "ALLEGRO.PL"
+  Assets:Банк  -96.85 PLN
+  Expenses:Покупки  96.85 PLN
+
+2026-09-14 * "COSTA COFFEE WARSZAWA"
+  Assets:Банк  -16.89 PLN
+  Expenses:Кафе  16.89 PLN
+
+2026-09-15 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Assets:Банк  -215.47 PLN
+  Expenses:Продукти  215.47 PLN
+
+2026-09-15 * "UBER *TRIP HELP.UBER.COM"
+  Assets:Банк  -31.97 PLN
+  Expenses:Транспорт  31.97 PLN
+
+2026-09-15 * "PYSZNE.PL"
+  Assets:Банк  -94.75 PLN
+  Expenses:Доставка-Їжі  94.75 PLN
+
+2026-09-17 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Assets:Банк  -215.59 PLN
+  Expenses:Продукти  215.59 PLN
+
+2026-09-17 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -24.36 PLN
+  Expenses:Продукти  24.36 PLN
+
+2026-09-18 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -12.25 PLN
+  Expenses:Продукти  12.25 PLN
+
+2026-09-20 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -20.18 PLN
+  Expenses:Продукти  20.18 PLN
+
+2026-09-20 * "PYSZNE.PL"
+  Assets:Банк  -53.88 PLN
+  Expenses:Доставка-Їжі  53.88 PLN
+
+2026-09-21 * "PGE OBRÓT S.A. ENERGIA ELEKTRYCZNA" #fixed #shared
+  Assets:Банк  -138.90 PLN
+  Expenses:Комунальні  138.90 PLN
+
+2026-09-21 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -14.60 PLN
+  Expenses:Продукти  14.60 PLN
+
+2026-09-21 * "PYSZNE.PL"
+  Assets:Банк  -72.40 PLN
+  Expenses:Доставка-Їжі  72.40 PLN
+
+2026-09-22 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -36.46 PLN
+  Expenses:Продукти  36.46 PLN
+
+2026-09-22 * "UBER *TRIP HELP.UBER.COM"
+  Assets:Банк  -28.77 PLN
+  Expenses:Транспорт  28.77 PLN
+
+2026-09-23 * "BIEDRONKA 4417 WARSZAWA"
+  Assets:Банк  -58.60 PLN
+  Expenses:Продукти  58.60 PLN
+
+2026-09-23 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -11.57 PLN
+  Expenses:Продукти  11.57 PLN
+
+2026-09-25 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -15.20 PLN
+  Expenses:Продукти  15.20 PLN
+
+2026-09-26 * "AUCHAN WARSZAWA" #shared
+  Assets:Банк  -278.88 PLN
+  Expenses:Продукти  278.88 PLN
+
+2026-09-26 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -29.29 PLN
+  Expenses:Продукти  29.29 PLN
+
+2026-09-28 * "NORTHWIND LOGISTICS SP. Z O.O. WYNAGRODZENIE 09/2026"
+  Assets:Банк  7600.00 PLN
+  Income:Зарплата  -7600.00 PLN
+
+2026-09-28 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Assets:Банк  -241.25 PLN
+  Expenses:Продукти  241.25 PLN
+
+2026-09-28 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -26.40 PLN
+  Expenses:Продукти  26.40 PLN
+
+2026-09-28 * "PYSZNE.PL"
+  Assets:Банк  -72.29 PLN
+  Expenses:Доставка-Їжі  72.29 PLN
+
+2026-09-30 * "BIEDRONKA 4417 WARSZAWA"
+  Assets:Банк  -51.22 PLN
+  Expenses:Продукти  51.22 PLN
+
+2026-09-30 * "COSTA COFFEE WARSZAWA"
+  Assets:Банк  -21.46 PLN
+  Expenses:Кафе  21.46 PLN
+
+2026-10-01 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -32.44 PLN
+  Expenses:Продукти  32.44 PLN
+
+2026-10-03 * "ZDROFIT KARNET MIESIĘCZNY WARSZAWA" #fixed
+  Assets:Банк  -159.00 PLN
+  Expenses:Спорт  159.00 PLN
+
+2026-10-04 * "BIEDRONKA 4417 WARSZAWA"
+  Assets:Банк  -21.46 PLN
+  Expenses:Продукти  21.46 PLN
+
+2026-10-04 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -23.24 PLN
+  Expenses:Продукти  23.24 PLN
+
+2026-10-05 * "BIEDRONKA 4417 WARSZAWA"
+  Assets:Банк  -59.49 PLN
+  Expenses:Продукти  59.49 PLN
+
+2026-10-05 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -21.68 PLN
+  Expenses:Продукти  21.68 PLN
+
+2026-10-05 * "BOLT.EU/R TALLINN"
+  Assets:Банк  -23.80 PLN
+  Expenses:Транспорт  23.80 PLN
+
+2026-10-06 * "GOOGLE *YOUTUBE PREMIUM" #fixed
+  Assets:Банк  -25.99 PLN
+  Expenses:Підписки  25.99 PLN
+
+2026-10-06 * "PYSZNE.PL"
+  Assets:Банк  -82.78 PLN
+  Expenses:Доставка-Їжі  82.78 PLN
+
+2026-10-07 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Assets:Банк  -184.86 PLN
+  Expenses:Продукти  184.86 PLN
+
+2026-10-07 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -9.46 PLN
+  Expenses:Продукти  9.46 PLN
+
+2026-10-07 * "PYSZNE.PL"
+  Assets:Банк  -94.71 PLN
+  Expenses:Доставка-Їжі  94.71 PLN
+
+2026-10-07 * "MANEKIN WARSZAWA"
+  Assets:Банк  -108.79 PLN
+  Expenses:Кафе  108.79 PLN
+
+2026-10-07 * "ALLEGRO.PL"
+  Assets:Банк  -94.05 PLN
+  Expenses:Покупки  94.05 PLN
+
+2026-10-08 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -11.53 PLN
+  Expenses:Продукти  11.53 PLN
+
+2026-10-09 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -19.82 PLN
+  Expenses:Продукти  19.82 PLN
+
+2026-10-09 * "STEAMGAMES.COM 4259522985"
+  Assets:Банк  -76.28 PLN
+  Expenses:Розваги  76.28 PLN
+
+2026-10-10 * "COSTA COFFEE WARSZAWA"
+  Assets:Банк  -20.85 PLN
+  Expenses:Кафе  20.85 PLN
+
+2026-10-11 * "BIEDRONKA 4417 WARSZAWA"
+  Assets:Банк  -35.71 PLN
+  Expenses:Продукти  35.71 PLN
+
+2026-10-11 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -11.01 PLN
+  Expenses:Продукти  11.01 PLN
+
+2026-10-12 * "ORANGE POLSKA S.A. ŚWIATŁOWÓD" #fixed #shared
+  Assets:Банк  -79.00 PLN
+  Expenses:Звязок  79.00 PLN
+
+2026-10-12 * "ORANGE POLSKA S.A. ABONAMENT GSM" #fixed
+  Assets:Банк  -55.00 PLN
+  Expenses:Звязок  55.00 PLN
+
+2026-10-12 * "ŻABKA Z5821 WARSZAWA"
+  Assets:Банк  -29.68 PLN
+  Expenses:Продукти  29.68 PLN
+
+2026-10-14 * "BIEDRONKA 4417 WARSZAWA"
+  Assets:Банк  -23.75 PLN
+  Expenses:Продукти  23.75 PLN
+
+2026-10-14 * "BOLT.EU/R TALLINN"
+  Assets:Банк  -22.44 PLN
+  Expenses:Транспорт  22.44 PLN
+
+2026-10-15 * "KAUFLAND WARSZAWA MOKOTÓW" #shared
+  Assets:Банк  -178.95 PLN
+  Expenses:Продукти  178.95 PLN
+
+2026-10-15 * "UBER *TRIP HELP.UBER.COM"
+  Assets:Банк  -42.46 PLN
+  Expenses:Транспорт  42.46 PLN
+
+2026-10-15 * "PYSZNE.PL"
+  Assets:Банк  -92.12 PLN
+  Expenses:Доставка-Їжі  92.12 PLN
+
+2026-09-01 balance Assets:Банк  8143.54 PLN
+2026-10-01 balance Assets:Банк  12852.82 PLN
+2026-10-16 balance Assets:Банк  11212.47 PLN

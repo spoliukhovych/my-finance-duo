@@ -1,0 +1,33 @@
+; Збережені запити (вкладка «Запит» у Fava), усі по місяцях.
+
+2026-07-01 query "витрати-за-категоріями" "
+  SELECT year, month, account, sum(number) AS spent
+  WHERE account ~ '^Expenses'
+  GROUP BY year, month, account
+  ORDER BY year, month, spent DESC"
+
+2026-07-01 query "норма-заощаджень" "
+  SELECT year, month,
+    -sum(number * int(account ~ '^Income')) AS income,
+    sum(number * int(account ~ '^Expenses')) AS expenses,
+    -sum(number) AS saved,
+    round(-sum(number) * 100 / -sum(number * int(account ~ '^Income')), 1) AS saved_pct,
+    max(date) AS last_op
+  WHERE account ~ '^(Income|Expenses)'
+  GROUP BY year, month
+  ORDER BY year, month"
+
+2026-07-01 query "фіксовані-і-змінні" "
+  SELECT year, month,
+    sum(number * int('fixed' IN tags)) AS fixed,
+    sum(number * int('fixed' NOT IN tags)) AS variable,
+    sum(number) AS total
+  WHERE account ~ '^Expenses'
+  GROUP BY year, month
+  ORDER BY year, month"
+
+2026-07-01 query "без-категорії" "
+  SELECT date, narration, sum(number) AS amount
+  WHERE account = 'Expenses:Без-Категорії'
+  GROUP BY date, narration
+  ORDER BY date"
