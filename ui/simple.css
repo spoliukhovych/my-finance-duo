@@ -153,3 +153,22 @@ nav.tracker-tabbar { display: none; }
   /* Вікно «+» на весь екран закриває нижнє меню. */
   body:has(dialog[open]) nav.tracker-tabbar { display: none; }
 }
+
+/* Графіки лише для перегляду: натискання вимкнено в simple.js, тож і курсор звичайний. */
+article .chart-wrapper svg, article .chart-wrapper svg * { cursor: default !important; }
+/* Єдиний залишений вид графіка — підпис, а не кнопка. */
+label.tracker-only { pointer-events: none; }
+
+/* «Вийти» праворуч у шапці. */
+header .tracker-logout {
+  margin-left: auto; padding: 6px 14px; border-radius: 999px; background: rgba(255, 255, 255, .22);
+  color: #fff !important; font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap;
+}
+header .tracker-logout:hover { background: rgba(255, 255, 255, .35); }
+@media (max-width: 767px) {
+  /* На телефоні шапка в один рядок: без значка Fava, довга назва сторінки обрізається «…». */
+  body > header { flex-wrap: nowrap; }
+  body > header > svg { display: none; }
+  body > header > h1 { min-width: 0; flex: 0 1 auto; white-space: nowrap; text-overflow: ellipsis; padding-left: 44px; }
+  header .tracker-logout { flex: none; padding: 5px 12px; font-size: 13px; }
+}

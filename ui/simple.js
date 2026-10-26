@@ -206,6 +206,29 @@
     for (const el of document.querySelectorAll("ol.journal .payee")) {
       el.classList.toggle("tracker-marko", el.textContent.trim() === "Марко");
     }
+    // Графіки: лишаємо по одному виду. «Доходи і витрати» — лише «По категоріях» (без «Підсумок»),
+    // «Гроші на рахунках» — лише «Діаграма з областями» (без лінійної).
+    for (const [hide, keep] of [["single", "stacked"], ["line", "area"]]) {
+      const radio = document.querySelector(`article input[type="radio"][value="${hide}"]`);
+      if (!radio) continue;
+      const label = radio.closest("label");
+      label.classList.add("tracker-hidden");
+      const other = label.parentElement.querySelector(`input[type="radio"][value="${keep}"]`);
+      if (other) {
+        other.closest("label").classList.add("tracker-only");
+        if (!label.classList.contains("muted")) other.click();
+      }
+    }
+    // Кнопка «Вийти» праворуч у шапці: щоб зайти під іншим іменем (наприклад, Олі).
+    const header = document.querySelector("body > header");
+    if (header && !header.querySelector(".tracker-logout")) {
+      const out = document.createElement("a");
+      out.className = "tracker-logout";
+      out.href = "/logout";
+      out.textContent = "Вийти";
+      out.addEventListener("click", (ev) => { ev.preventDefault(); location.assign("/logout"); });
+      header.append(out);
+    }
     // Графіки боргів і капіталу нам не потрібні: боргів немає, капітал лише бухгалтерський.
     for (const b of document.querySelectorAll("article button.unset")) {
       if (["Борги", "Початковий залишок"].includes(b.textContent.trim())) b.classList.add("tracker-hidden");
@@ -235,6 +258,15 @@
       if (document.title.startsWith(from + " ")) document.title = document.title.replace(from, to);
     }
   }
+
+  // Натискання на графік у Fava відкриває інший період або рахунок і ховає решту даних.
+  // Перехоплюємо клік раніше за Fava; підказки при наведенні лишаються.
+  document.addEventListener("click", (ev) => {
+    if (ev.target instanceof Element && ev.target.closest("article .chart-wrapper svg")) {
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
+  }, true);
 
   let queued = false;
   new MutationObserver(() => {

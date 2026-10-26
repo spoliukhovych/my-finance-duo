@@ -11,7 +11,7 @@
   {% else %}
   <small>Витрачено {{ r.in_month }}</small>
   <h1 class="num">{{ r.expenses }} зл</h1>
-  <small>{% if r.has_income %}з {{ r.income }} зл доходу{% else %}дохід цього місяця ще не надійшов{% endif %}</small>
+  <small>{% if r.got_income %}з {{ r.income }} зл доходу{% else %}дохід цього місяця ще не надійшов{% endif %}</small>
   {% endif %}
   <nav class="frp-pills">
     {% for m, label in r.pills %}<a href="?month={{ m }}" class="{{ 'on' if m == r.month else '' }}">{{ label }}</a>{% endfor %}
@@ -36,7 +36,7 @@
 </div>
 {% else %}
 <div class="frp-cards">
-  <div class="frp-card"><small>Відкладено</small><b class="num {{ 'plus' if r.has_income else '' }}">{{ r.saved_short }} зл</b></div>
+  <div class="frp-card"><small>{{ r.saved_label }}</small><b class="num {{ 'minus' if r.overspent else 'plus' if r.has_income else '' }}">{{ r.saved_short }}</b>{% if r.saved_short == "—" %}<em>дохід ще не надійшов</em>{% endif %}</div>
   <div class="frp-card"><small>Норма</small><b class="num">{{ r.rate ~ "%" if r.has_income else "—" }}</b></div>
   <div class="frp-card"><small>Фіксовані</small><b class="num">{{ r.fixed_pct }}%</b></div>
 </div>
@@ -72,10 +72,11 @@
 <h3>2. Норма заощаджень <small>(дохід − витрати) / дохід</small></h3>
 <div class="frp-box">
   {% if r.has_income %}<div class="frp-big num">{{ r.rate }}%</div>
+  {% elif r.overspent %}<p>Цього місяця витрати більші за дохід, тому відкласти не вийшло.</p>
   {% else %}<p>Цього місяця дохід ще не надійшов, тому норму порахувати не можна.</p>{% endif %}
   <div class="frp-line"><span>Дохід</span><b class="num">{{ r.income }} зл</b></div>
   <div class="frp-line"><span>Витрати</span><b class="num">{{ r.expenses }} зл</b></div>
-  <div class="frp-line"><span>Відкладено</span><b class="num">{{ r.saved }} зл</b></div>
+  <div class="frp-line"><span>{{ r.saved_label }}</span><b class="num {{ 'minus' if r.overspent else '' }}">{{ r.saved_full }}</b></div>
 </div>
 
 <h3>3. Фіксовані і змінні <small>змінними можна керувати</small></h3>
