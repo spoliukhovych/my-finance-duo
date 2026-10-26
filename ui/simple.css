@@ -30,6 +30,9 @@ aside li:has(> a.add-transaction) { display: block !important; }
 dialog form h3 button:not(:first-of-type),
 dialog form input[name="flag"],
 dialog form button[title="Додати метадані"] { display: none !important; }
+/* Поле «Отримувач» ховаємо: у банківських виписках магазин записано в «Опис», тож і вручну пишемо його туди
+   (тоді підказки з назвами магазинів збігаються, а звіт показує запис так само, як банківський). */
+dialog form .flex-row:has(> input[type="date"]) > label:first-of-type { display: none !important; }
 dialog .tracker-hint { margin: 4px 0 0; font-size: 13px; color: #64748b; }
 
 /* Ряд технічних кнопок над журналом (Open, Close, Balance, ...). */
