@@ -172,3 +172,7 @@ header .tracker-logout:hover { background: rgba(255, 255, 255, .35); }
   body > header > h1 { min-width: 0; flex: 0 1 auto; white-space: nowrap; text-overflow: ellipsis; padding-left: 44px; }
   header .tracker-logout { flex: none; padding: 5px 12px; font-size: 13px; }
 }
+
+/* У «Спільне» записів вручну немає (облік збирається з виписок), тож кнопки «Додати витрату» там теж немає. */
+.tracker-shared aside li:has(> a.add-transaction),
+.tracker-shared aside a.add-transaction { display: none !important; }

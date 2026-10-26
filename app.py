@@ -46,6 +46,8 @@ UI = ROOT / "ui"  # спрощений вигляд Fava: simple.css, simple.js 
 # Сторінки й дії Fava, які змінюють файли обліку. Редактор закрито, щоб випадково не зламати облік.
 BLOCKED_PAGES = {"editor", "import"}
 ALLOWED_WRITES = {"api/add_entries", "api/source_slice"}
+# Спільний облік збирає importer.py з банківських виписок; вручну туди нічого не дописуємо.
+READ_ONLY_LEDGERS = {"спільне"}
 
 
 def _require_env(name):
@@ -131,7 +133,7 @@ button {{ width: 100%; margin-top: 20px; padding: 14px; font-size: 16px; font-we
             return False
         if request.method in ("GET", "HEAD"):
             return rest != "api/source"
-        if rest not in ALLOWED_WRITES:
+        if rest not in ALLOWED_WRITES or slug in READ_ONLY_LEDGERS:
             return False
         if rest == "api/source_slice":
             # Виправити чи видалити можна лише запис, доданий з телефона (*-manual.beancount).
