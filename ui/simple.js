@@ -62,7 +62,7 @@
   const own = allowed.find((l) => l !== SHARED) || allowed[0];
 
   // Нижнє меню на телефоні, як у банківських застосунках: [значок, назва, посилання, сторінка].
-  // У спільному обліку «+» веде в особистий облік: готівку записуємо у свій *-manual.beancount.
+  // У спільному обліку «+» немає: його збирає importer.py з виписок, вручну туди не пишемо.
   const base = (ledger) => "/" + encodeURIComponent(ledger) + "/";
   function tabs(ledger) {
     const here = base(ledger);
@@ -71,7 +71,6 @@
       return [
         ["📊", "Звіт", here + "extension/FavaReport/", "extension/FavaReport"],
         ["🧾", "Операції", here + "account/Expenses/", "account/Expenses"],
-        ["+", "", mine + "extension/FavaReport/#add-transaction", ""],
         ["🤝", "Підсумки", here + "extension/SharedExpenses/", "extension/SharedExpenses"],
         ["👤", "Мій облік", mine + "extension/FavaReport/", ""],
       ];
