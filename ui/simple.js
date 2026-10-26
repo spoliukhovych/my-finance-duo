@@ -42,6 +42,8 @@
   };
   const HINT = "Перший рядок: категорія (Expenses:Кафе) і сума. Другий рядок: звідки гроші, " +
     "Assets:Готівка, суму можна не писати.";
+  // Початок підпису → зрозуміліший (дужки з періодом лишаються: «(щомісячно)», «(щоденно)»).
+  const PREFIX = [["Зміни (", "Прихід мінус витрати ("], ["Баланс (", "Залишок ("]];
   const allowed = window.TRACKER_LEDGERS || [];
 
   function fix() {
@@ -75,7 +77,7 @@
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     for (let n = walker.nextNode(); n; n = walker.nextNode()) {
       const t = n.data.trim();
-      if (!(t in TEXT) || n.parentElement.closest("a.account, [data-account-name] a")) continue;
+      if (!(t in TEXT) || n.parentElement.closest("a.account")) continue;
       n.data = n.data.replace(t, TEXT[t]);
     }
     // Графіки боргів і капіталу нам не потрібні: боргів немає, капітал лише бухгалтерський.
@@ -102,6 +104,14 @@
     for (const a of document.querySelectorAll(".beancount-files a[href]")) {
       const slug = decodeURIComponent(a.getAttribute("href").split("/")[1] || "");
       if (!allowed.includes(slug)) a.closest("li").classList.add("tracker-hidden");
+    }
+    // Заголовки таблиць на сторінці «Усі операції»: «Зміни (щомісячно)», «Баланс (щомісячно)».
+    for (const h of document.querySelectorAll("article .headerline h3, article .headerline h3 a")) {
+      const node = h.firstChild;
+      if (!node || node.nodeType !== 3) continue;
+      for (const [from, to] of PREFIX) {
+        if (node.data.startsWith(from)) node.data = to + node.data.slice(from.length);
+      }
     }
     for (const [from, to] of Object.entries(TITLE)) {
       if (document.title.startsWith(from + " ")) document.title = document.title.replace(from, to);

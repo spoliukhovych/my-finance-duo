@@ -44,8 +44,20 @@ ol.journal .flag { visibility: hidden; width: 0.5rem; }
 .tracker-page-balance_sheet article .row > .column:nth-child(2) { display: none; }
 .tracker-page-balance_sheet article .row > .column:first-child { flex: 1 1 100%; max-width: 640px; }
 
-/* Колонка «Other» (інші валюти) у таблицях: у нас лише злоті. */
-.flex-table .num.other { display: none; }
+/* Колонка «Other» (інші валюти) у таблицях: у нас лише злоті.
+   Ховаємо її лише там, де поруч є колонка PLN: у таблицях по місяцях усі колонки мають клас other. */
+.flex-table p:has(> .num:not(.other)) > .num.other { display: none; }
+
+/* Кнопка «PLN» над графіком лише вимикає валюту, і графік стає порожнім. Робимо її простою підписю. */
+article button:has(> i[style*="background-color"]) { pointer-events: none; cursor: default; }
+
+/* «Усі операції» — це сторінка рахунку Assets, яку Fava підсвічує як «Баланс». Підсвічуємо правильний пункт. */
+.tracker-page-account-Assets aside a.selected:not([href*="/account/Assets/"]):not(:hover) {
+  color: inherit; background-color: transparent;
+}
+.tracker-page-account-Assets aside a[href*="/account/Assets/"] {
+  color: var(--sidebar-hover-color); background-color: var(--sidebar-border);
+}
 
 /* Елементи, які позначено з app.js як зайві. */
 .tracker-hidden { display: none !important; }
@@ -54,4 +66,10 @@ ol.journal .flag { visibility: hidden; width: 0.5rem; }
 @media (max-width: 767px) {
   .tracker-page-account-Assets ol.journal > li > p > .num:last-child { display: none; }
   .tracker-page-account-Assets ol.journal > li > p > .change { flex: 1; text-align: right; white-space: nowrap; }
+}
+
+/* Таблиці по періодах на телефоні гортаються вбік, а не обрізаються. */
+@media (max-width: 767px) {
+  .tracker-page-account-Assets article .droptarget { overflow-x: auto; }
+  .tracker-page-account-Assets article .droptarget > ol.tree-table-new { min-width: max-content; }
 }
